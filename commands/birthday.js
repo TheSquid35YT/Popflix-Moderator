@@ -116,8 +116,13 @@ module.exports = {
       //12:00 AM CST is "5:00:00 AM UTC" After Springing Ahead
       textChannel.send('Hey @everyone, <@842775170804482108> is feeling very patriotic!');
     }
-    //Justin (July 5th, 2005)
+    //Justin Pilkington (July 5th, 2005)
     if (d.toLocaleTimeString('en-US', options) === 'July 5, 5:00 AM UTC') {
+      //12:00 AM CST is "5:00:00 AM UTC" After Springing Ahead
+      textChannel.send('Hey @everyone, it\'s <@427982759865352213>\'s Birthday! **Happy  Birthday <@427982759865352213>!**');
+    }
+    //Jeremy Selwitschka (July 9th, 2004)
+    if (d.toLocaleTimeString('en-US', options) === 'July 9, 5:00 AM UTC') {
       //12:00 AM CST is "5:00:00 AM UTC" After Springing Ahead
       textChannel.send('Hey @everyone, it\'s <@427982759865352213>\'s Birthday! **Happy  Birthday <@427982759865352213>!**');
     }
