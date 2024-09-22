@@ -72,9 +72,9 @@ client.on('message', message => {
     } else if (message.content.toLowerCase().startsWith('!nice')) {
 			//!nice command
       client.commands.get('nice').execute(msg, message, client);
-	  } else if (message.content.toLowerCase().startsWith('!invite')) {
-      //!invite command
-      client.commands.get('invite').execute(msg, message, args, client);
+	  } else if (message.content.toLowerCase().startsWith('!invite') || message.content.toLowerCase().startsWith('!inv')) {
+      //!invite command (also works with !inv)
+      client.commands.get('invite').execute(msg, message, client);
     }; // Add an "else if" for new commands here
 
     for (var i = 0; i < japanese.length; i++) {
