@@ -1,12 +1,12 @@
 //Packages
 const Discord = require('discord.js');
-const ytdl = require('ytdl-core');
-const opusscript = require("opusscript");
-const ffmpeg = require('ffmpeg-static');
-const clipboardy = require('clipboardy');
-const TwitchWebhook = require('twitch-webhook');
-const rss = require('rss-converter');
-const config = require('./config.json');
+//const ytdl = require('ytdl-core');
+//const opusscript = require("opusscript");
+//const ffmpeg = require('ffmpeg-static');
+//const clipboardy = require('clipboardy');
+//const TwitchWebhook = require('twitch-webhook');
+//const rss = require('rss-converter');
+//const config = require('./config.json');
 
 //Keep the bot alive
 const keep_alive = require('./keep_alive.js')
