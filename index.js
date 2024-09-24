@@ -94,8 +94,12 @@ client.on('message', message => {
     for (var i = 0; i < adminAbuse.length; i++) {
       if (message.content.toLowerCase().includes(adminAbuse[i])) {
 
-        message.reply("https://cdn.discordapp.com/attachments/505162060808585256/1287892254039605290/Alya_Speaks_Russian.gif?ex=66f332a1&is=66f1e121&hm=41e70eb1bce41ac81561607fee669da0051989ed596594dfbf99f7a6b9200e6d&");
-        break;
+        //message.reply("https://cdn.discordapp.com/attachments/505162060808585256/1287892254039605290/Alya_Speaks_Russian.gif?ex=66f332a1&is=66f1e121&hm=41e70eb1bce41ac81561607fee669da0051989ed596594dfbf99f7a6b9200e6d&");
+        message.channel.send({ 
+      		content: 'This is a reply!', 
+      		reply: { messageReference: message.author.id } 
+    	});
+	break;
       };
     };
 
