@@ -28,7 +28,10 @@ for (const file of commandFiles) {
 const muted = ['777273578230906970'];
 
 //Cringe Japanese Characters
-const japanese = ['あ','い','う','え','お','か','き','く','け','こ','さ','し','す','せ','そ','た','ち','つ','て','と','な','に','ぬ','ね','の','は','ひ','ふ','へ','ほ','ま','み','む','め','も','や','ゆ','よ','ら','り','る','れ','ろ','わ','を','ん']
+const japanese = ['あ','い','う','え','お','か','き','く','け','こ','さ','し','す','せ','そ','た','ち','つ','て','と','な','に','ぬ','ね','の','は','ひ','ふ','へ','ほ','ま','み','む','め','も','や','ゆ','よ','ら','り','る','れ','ろ','わ','を','ん'];
+
+//Admin Abuse Synonyms
+const adminAbuse = ['admin abuse','admin perms','owner abuse','owner perms','mod abuse','mod perms'];
 
 
 client.on('ready', () => {
@@ -77,14 +80,24 @@ client.on('message', message => {
       client.commands.get('invite').execute(msg, message, client);
     }; // Add an "else if" for new commands here
 
+    //Delete Japanese Character Message
     for (var i = 0; i < japanese.length; i++) {
       if (message.content.includes(japanese[i])) {
 
         message.author.send("Hey, <@"+message.author.id+">! You said, \"`"+message.content+"`\" which was pretty cringe. Don't worry though, I've removed it.");
         message.delete();
         break;
-      }
-    }
+      };
+    };
+
+    //Check for "Admin Abuse"
+    for (var i = 0; i < adminAbuse.length; i++) {
+      if (message.content.toLowerCase().includes(adminAbuse[i])) {
+
+        message.send("https://cdn.discordapp.com/attachments/505162060808585256/1287892254039605290/Alya_Speaks_Russian.gif?ex=66f332a1&is=66f1e121&hm=41e70eb1bce41ac81561607fee669da0051989ed596594dfbf99f7a6b9200e6d&");
+        break;
+      };
+    };
 
 };
 
