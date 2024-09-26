@@ -7,13 +7,12 @@ module.exports = {
     
     //Command
     message.channel.send({
-      embed: {
-        title:'Nice',
+      embeds: [{
+        title: "Nice",
         image: {
-          url:
-            'https://media.discordapp.net/attachments/496823793294114818/777365307386757130/image0.jpg?width=479&height=572'
+          url: "https://media.discordapp.net/attachments/496823793294114818/777365307386757130/image0.jpg?width=479&height=572"
         }
-      }
+      }]
     });
   }
 }

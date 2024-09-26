@@ -1,5 +1,6 @@
 //Packages
 const Discord = require('discord.js');
+require('dotenv').config();
 //const ytdl = require('ytdl-core');
 //const opusscript = require("opusscript");
 //const ffmpeg = require('ffmpeg-static');
@@ -11,7 +12,8 @@ const Discord = require('discord.js');
 //Keep the bot alive
 const keep_alive = require('./keep_alive.js')
 
-const client = new Discord.Client();
+//const client = new Discord.Client();
+const client = new Discord.Client({ intents: 53608447 });
 const token = process.env.DISCORD_BOT_SECRET;
 
 //Command Handler
@@ -22,7 +24,7 @@ for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
 
   client.commands.set(command.name, command);
-}
+};
 
 //Role Color
 const muted = ['777273578230906970'];
@@ -31,17 +33,35 @@ const muted = ['777273578230906970'];
 const japanese = ['あ','い','う','え','お','か','き','く','け','こ','さ','し','す','せ','そ','た','ち','つ','て','と','な','に','ぬ','ね','の','は','ひ','ふ','へ','ほ','ま','み','む','め','も','や','ゆ','よ','ら','り','る','れ','ろ','わ','を','ん'];
 
 //Admin Abuse Synonyms
-const adminAbuse = ['admin abuse','admin perms','owner abuse','owner perms','mod abuse','mod perms','abusing admin','abusing mod','abusing owner','abusive admin','abusive mod','abusive owner','abuse admin','abuse mod','abuse owner'];
+const adminAbuse = ['admin abuse','admin perms','owner abuse','owner perms','mod abuse','mod perms','abusing admin','abusing mod','abusing owner','abusive admin','abusive mod','abusive owner','abuse admin','abuse mod','abuse owner','power abuse','abuse power','abusing power','josh abuse','!kick <@777270048288407593>','!kick @Popflix Moderator','i hate popflix bot','i hate popflix mod','i hate popflix moderator'];
+
+//No Gif Thursday
+const postedLosers = true;
 
 
 client.on('ready', () => {
   console.log("I'm in");
   console.log(client.user.username);
-  client.user.setActivity('Kitten in the VC', { type: 'LISTENING' });
+  //client.user.setActivity('Kitten in the VC', { type: 'LISTENING' });
+  //client.user.setPresence( activities: [{ name: 'Kitten in the VC', type: ActivityType.Listening }]);
+  client.user.setActivity({ name: 'Kitten in the VC', type: 2, });
 
   //Birthday Wishes
   setInterval(() => {
 		client.commands.get('birthday').execute(client);
+
+    //And No Gif Thursday Conclusion
+    var now = new Date();
+    var nowOptions = { weekday: 'long', timeZone: 'CST' };
+    var friday = new Intl.DateTimeFormat('en-US', nowOptions).format(now);
+    if (friday == "Friday" && postedLosers == false) {
+      var textChannel = client.channels.cache.find(
+        channel => channel.id === '731713435506704424'//Popflix
+      );
+      textChannel.send("**__No Gif Thursday Losers__**\n"+fs.readFileSync('./gifLosers.txt', 'utf8'));
+      fs.writeFileSync('./gifLosers.txt', '');
+      postedLosers = true;
+    };
 	}, 60000); //Check every minute
 });
 
@@ -58,7 +78,8 @@ client.on("guildMemberAdd", member => { //When a user joins the server
   }
 });
 
-client.on('message', message => {
+//client.on('message', message => {
+client.on('messageCreate', message => {
 
   if (message.author.id != client.user.id) {
 
@@ -93,17 +114,47 @@ client.on('message', message => {
     //Check for "Admin Abuse"
     for (var i = 0; i < adminAbuse.length; i++) {
       if (message.content.toLowerCase().includes(adminAbuse[i])) {
-
-        //message.reply("https://cdn.discordapp.com/attachments/505162060808585256/1287892254039605290/Alya_Speaks_Russian.gif?ex=66f332a1&is=66f1e121&hm=41e70eb1bce41ac81561607fee669da0051989ed596594dfbf99f7a6b9200e6d&");
-        message.channel.send({ 
-      		content: 'This is a reply!', 
-      		reply: { messageReference: message.author.id } 
-    	});
-	break;
+        message.reply("https://cdn.discordapp.com/attachments/505162060808585256/1287892254039605290/Alya_Speaks_Russian.gif?ex=66f332a1&is=66f1e121&hm=41e70eb1bce41ac81561607fee669da0051989ed596594dfbf99f7a6b9200e6d&");
+	      break;
       };
     };
 
-};
+    //Check for No Gif Thursday
+    //if (message.content.toLowerCase().includes('.gif')||message.content.toLowerCase().includes('https://tenor.com/view/')||(message.content.toLowerCase().includes('https://imgur.com/')&&message.content.toLowerCase().includes('gif'))) {
+    //message.reply(" "+message.attachments.size);
+    //if (message.attachments.size > 0) {
+    const isLink = new RegExp(/https?:\/\/\S+/g).test(message.content);
+    const gifWeb = (message.content.toLowerCase().includes("tenor.com/view/") || message.content.toLowerCase().includes(".gif") || message.content.toLowerCase().includes("imgur.com/"));
+    var gitFile = false;
+    if (message.attachments.size > 0) {
+      message.attachments.forEach(attachment => {
+        if (attachment.contentType === 'image/gif' || attachment.name.endsWith('.gif')) {
+          gifFile = true;
+        };
+      });
+    };
+    if ((isLink && gifWeb) == true || (gitFile == true)) {
+      //Get day
+      var d = new Date();
+      var options = { weekday: 'long', timeZone: 'CST' };
+      var weekday = new Intl.DateTimeFormat('en-US', options).format(d);
+
+      //Check Thursday
+      if (weekday == "Thursday") {
+        //No Gif Thursday
+        var checkGifLosers = fs.readFileSync('./gifLosers.txt', 'utf8');
+        if (!checkGifLosers.includes(message.author.id)) {
+          postedLosers = false; //Someone posted a gif, post on friday
+          fs.appendFileSync('./gifLosers.txt', "<@"+message.author.id+">\n");
+        };
+      };
+    };
+
+    //Check for .gorf
+    if (message.content.toLowerCase().includes('.gorf')) {
+      message.reply("❗❗ GIF DETECTED <@412278016429785089> ❗❗");
+    };
+  };
 
   //const dropBattery = Math.floor(Math.random());
   //console.log(dropBattery);
@@ -111,63 +162,10 @@ client.on('message', message => {
 });
 
 //Check For New YouTube Videos
-/*
-client.on("ready", async () => {
-    setInterval(async () => {
-      //The_Squid_35
-      let feed1 = await rss.toJson('https://www.youtube.com/feeds/videos.xml?channel_id=' + config.channel_yt1);
-      let jsonOpen = fs.readFileSync('links.json');
-      let json = JSON.parse(jsonOpen);
-      if (jsonOpen.includes(feed1.items[0].yt_videoId)) return;
-      json.push(feed1.items[0].yt_videoId);
-      let jsonLink = JSON.stringify(json);
-      fs.writeFileSync('links.json', jsonLink);
-      client.channels.cache.get(config.channel_id).send(`Hey @everyone, **${feed1.author.name}** has uploaded a new YouTube! Go check out **${feed1.items[0].title} at **https://www.youtube.com/watch?v=${feed1.items[0].yt_videoId}`)
-    }, 60000);
-    setInterval(async () => {
-      //Waterboiii
-      let feed2 = await rss.toJson('https://www.youtube.com/feeds/videos.xml?channel_id=' + config.channel_yt2);
-      let jsonOpen = fs.readFileSync('links.json');
-      let json = JSON.parse(jsonOpen);
-      if (jsonOpen.includes(feed2.items[0].yt_videoId)) return;
-      json.push(feed2.items[0].yt_videoId);
-      let jsonLink = JSON.stringify(json);
-      fs.writeFileSync('links.json', jsonLink);
-      client.channels.cache.get(config.channel_id).send(`Hey @everyone, **${feed2.author.name}** has uploaded a new YouTube! Go check out **${feed2.items[0].title} at **https://www.youtube.com/watch?v=${feed2.items[0].yt_videoId}`)
-    }, 60000);
-    setInterval(async () => {
-      //C-46
-      let feed3 = await rss.toJson('https://www.youtube.com/feeds/videos.xml?channel_id=' + config.channel_yt3);
-      let jsonOpen = fs.readFileSync('links.json');
-      let json = JSON.parse(jsonOpen);
-      if (jsonOpen.includes(feed3.items[0].yt_videoId)) return;
-      json.push(feed3.items[0].yt_videoId);
-      let jsonLink = JSON.stringify(json);
-      fs.writeFileSync('links.json', jsonLink);
-      client.channels.cache.get(config.channel_id).send(`Hey @everyone, **${feed3.author.name}** has uploaded a new YouTube! Go check out **${feed3.items[0].title} at **https://www.youtube.com/watch?v=${feed3.items[0].yt_videoId}`)
-    }, 60000);
-    setInterval(async () => {
-      //PaperMache
-      let feed4 = await rss.toJson('https://www.youtube.com/feeds/videos.xml?channel_id=' + config.channel_yt4);
-      let jsonOpen = fs.readFileSync('links.json');
-      let json = JSON.parse(jsonOpen);
-      if (jsonOpen.includes(feed4.items[0].yt_videoId)) return;
-      json.push(feed4.items[0].yt_videoId);
-      let jsonLink = JSON.stringify(json);
-      fs.writeFileSync('links.json', jsonLink);
-      client.channels.cache.get(config.channel_id).send(`Hey @everyone, **${feed4.author.name}** has uploaded a new YouTube! Go check out **${feed4.items[0].title} at **https://www.youtube.com/watch?v=${feed4.items[0].yt_videoId}`)
-    }, 60000);
-    setInterval(async () => {
-      //Galactic Gamer Josh
-      let feed5 = await rss.toJson('https://www.youtube.com/feeds/videos.xml?channel_id=' + config.channel_yt5);
-      let jsonOpen = fs.readFileSync('links.json');
-      let json = JSON.parse(jsonOpen);
-      if (jsonOpen.includes(feed5.items[0].yt_videoId)) return;
-      json.push(feed5.items[0].yt_videoId);
-      let jsonLink = JSON.stringify(json);
-      fs.writeFileSync('links.json', jsonLink);
-      client.channels.cache.get(config.channel_id).send(`Hey @everyone, **${feed5.author.name}** has uploaded a new YouTube! Go check out **${feed5.items[0].title} at **https://www.youtube.com/watch?v=${feed5.items[0].yt_videoId}`)
-    }, 60000);
-});
-*/
+
+
+
+
+
+
 client.login(token);

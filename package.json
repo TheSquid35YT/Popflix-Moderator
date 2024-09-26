@@ -12,9 +12,10 @@
   "license": "ISC",
   "dependencies": {
     "ajax": "0.0.4",
-    "discord.js": "^14.14.1"
+    "discord.js": "^14.16.2",
+    "dotenv": "^16.4.5"
   },
   "devDependencies": {
-    "ws": "3.3.2"
+    "ws": "^8.18.0"
   }
 }
