@@ -36,7 +36,7 @@ const japanese = ['あ','い','う','え','お','か','き','く','け','こ','�
 const adminAbuse = ['admin abuse','admin perms','owner abuse','owner perms','mod abuse','mod perms','abusing admin','abusing mod','abusing owner','abusive admin','abusive mod','abusive owner','abuse admin','abuse mod','abuse owner','power abuse','abuse power','abusing power','josh abuse','!kick <@777270048288407593>','!kick @Popflix Moderator','i hate popflix bot','i hate popflix mod','i hate popflix moderator'];
 
 //No Gif Thursday
-const postedLosers = true;
+var postedLosers = true;
 
 
 client.on('ready', () => {
