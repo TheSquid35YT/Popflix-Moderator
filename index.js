@@ -1,6 +1,7 @@
 //Packages
 const Discord = require('discord.js');
 require('dotenv').config();
+const mongoose = require('mongoose')
 //const ytdl = require('ytdl-core');
 //const opusscript = require("opusscript");
 //const ffmpeg = require('ffmpeg-static');
@@ -18,12 +19,21 @@ const token = process.env.DISCORD_BOT_SECRET;
 
 //Command Handler
 const fs = require('fs');
+//General Commands
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
 
   client.commands.set(command.name, command);
+};
+//Economy Commands
+client.economyCommands = new Discord.Collection();
+const economyCommandFiles = fs.readdirSync('./commands/economy/').filter(file => file.endsWith('.js'));
+for (const file of economyCommandFiles) {
+  const economyCommand = require(`./commands/economy/${file}`)
+
+  client.economyCommands.set(economyCommand.name, economyCommand);
 };
 
 //Role Color
@@ -99,6 +109,18 @@ client.on('messageCreate', message => {
 	  } else if (message.content.toLowerCase().startsWith('!invite') || message.content.toLowerCase().startsWith('!inv')) {
       //!invite command (also works with !inv)
       client.commands.get('invite').execute(msg, message, client);
+    } else if (message.content.toLowerCase().startsWith('!reset') && message.author.id === '412278016429785089') {
+      //!reset command (Only For The_Squid_35)
+      client.economyCommands.get('reset').execute(msg, message, client);
+    } else if (message.content.toLowerCase().startsWith('!balance')) {
+      //!balance command
+      client.economyCommands.get('balance').execute(msg, message, client);
+    } else if (message.content.toLowerCase().startsWith('!daily')) {
+      //!daily command
+      client.economyCommands.get('daily').execute(msg, message, client);
+    } else if (message.content.toLowerCase().startsWith('!gamble')) {
+      //!gamble command
+      client.economyCommands.get('gamble').execute(msg, message, client);
     }; // Add an "else if" for new commands here
 
     //Delete Japanese Character Message
@@ -165,7 +187,11 @@ client.on('messageCreate', message => {
 
 
 
+(async () => {
+  await mongoose.connect(process.env.MONGODB_URI);
+  console.log("Connected to DB");
+  client.login(token);
+})();
 
 
-
-client.login(token);
+//client.login(token);

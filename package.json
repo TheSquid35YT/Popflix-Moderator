@@ -13,7 +13,9 @@
   "dependencies": {
     "ajax": "0.0.4",
     "discord.js": "^14.16.2",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "mongodb": "^6.9.0",
+    "mongoose": "^8.6.4"
   },
   "devDependencies": {
     "ws": "^8.18.0"
