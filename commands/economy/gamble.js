@@ -21,16 +21,66 @@ module.exports = {
             };
 
             //Gamble
-            const amount = message.content.slice("!gamble").trim().split(' ');
-            console.log(amount);
+            const amount = parseInt(message.content.substring(8));
+            if (isNaN(amount)) {
+                return message.channel.send("<@"+message.author.id+"> **[Invalid Amount]**");
+            };
 
-            message.reply({
-                embeds: [{
-                    title: message.author.username+"\'s Balance",
-                    description: "Your balance is: **"+userProfile.balance+"** <:PopflixCoin:1289329625792774155>\nYour Daily Streak Multiplier is: **"+userProfile.dailyStreakMultiplier+"x**",
-                    color: parseInt("00f5d8", 16)
-                }]
-            });
+            if (amount > userProfile.balance) {
+                return message.reply({
+                    embeds: [{
+                        title: "Insufficient Balance",
+                        description: "Your balance is: **"+userProfile.balance+"** <:PopflixCoin:1289329625792774155>\nYou tried to gamble: **"+amount+"** <:PopflixCoin:1289329625792774155>",
+                        color: parseInt("f50000", 16)
+                    }]
+                });
+            };
+
+            const didWin = Math.random() > 0.5;
+
+            if (!didWin) { //User didn't win
+                userProfile.balance -= amount;
+
+                //Save balance
+                await userProfile.save();
+
+                //Notify user
+                if (userProfile.balance === 1) {
+                    return message.reply({
+                        embeds: [{
+                            title: "❌ YOU LOST ❌",
+                            description: "You tried to gamble: **"+amount+"** <:PopflixCoin:1289329625792774155>\nYour new balance is: **"+userProfile.balance+"** <:PopflixCoin:1289329625792774155>",
+                            image: {
+                                url: "https://i0.wp.com/i.redd.it/r6mr2lmr1mx71.jpg?resize=1810%2C2560&ssl=1"
+                            },
+                            color: parseInt("f50000", 16)
+                        }]
+                    });
+                } else {
+                    return message.reply({
+                        embeds: [{
+                            title: "❌ YOU LOST ❌",
+                            description: "You tried to gamble: **"+amount+"** <:PopflixCoin:1289329625792774155>\nYour new balance is: **"+userProfile.balance+"** <:PopflixCoin:1289329625792774155>",
+                            color: parseInt("f50000", 16)
+                        }]
+                    });
+                };
+            } else { //User won
+                const amountWon = amount + Number((amount * (Math.random())).toFixed(0));
+                userProfile.balance += amountWon;
+
+                //Save balance
+                await userProfile.save();
+                
+                //Notify user
+                return message.reply({
+                    embeds: [{
+                        title: "🎉 YOU WON 🎉",
+                        description: "You won: **"+amountWon+"** <:PopflixCoin:1289329625792774155>\nYour new balance is: **"+userProfile.balance+"** <:PopflixCoin:1289329625792774155>",
+                        color: parseInt("00f53d", 16)
+                    }]
+                });
+            };
 
         } catch (error) {
             console.log("BALANCE COMMAND ERROR: "+error);

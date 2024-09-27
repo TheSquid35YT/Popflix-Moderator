@@ -14,8 +14,8 @@ module.exports = {
       if (command === '!mute') {
         if (!args.length) {
           return message.channel.send("<@" + message.author.id + "> **[Invalid User]**")
-        }
-      }
+        };
+      };
       const mention = message.mentions.members.first;
       if (msg.startsWith('!mute <@')) {
         if (!msg.startsWith('!mute <@&')) {
