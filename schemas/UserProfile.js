@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, default: mongoose } = require('mongoose');
 
 const userProfileSchema = new Schema({
     userId: {
@@ -13,7 +13,7 @@ const userProfileSchema = new Schema({
         type: Date,
     },
     dailyStreakMultiplier: {
-        type: Number,
+        type: mongoose.Types.Decimal128,
         default: 1.00,
     }
 },
