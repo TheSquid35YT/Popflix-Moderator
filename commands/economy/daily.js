@@ -12,8 +12,11 @@ module.exports = {
         //Command
         try {
             let userProfile = await UserProfile.findOne({
-                userId: message.author.id,
+                //userId: message.author.id,
+userId: 490196736103677975,
             });
+            
+            
 
             //Date Format Options (CST)
             var options = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'CST' };
