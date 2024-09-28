@@ -33,7 +33,7 @@ module.exports = {
             //Check dailyStreakMultiplier
             var yesterday = new Date();
             yesterday.setDate(yesterday.getDate() - 1);
-            if (userProfile.lastDailyCollected === yesterday) {
+            if (userProfile.lastDailyCollected == yesterday) {
                 //Increase dailyStreakMultiplier
                 userProfile.dailyStreakMultiplier += 0.01;
             };

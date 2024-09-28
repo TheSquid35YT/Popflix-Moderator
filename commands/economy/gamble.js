@@ -66,7 +66,7 @@ module.exports = {
                     });
                 };
             } else { //User won
-                const amountWon = amount + Number((amount * (Math.random())).toFixed(0));
+                const amountWon = amount + Number((amount * (Math.random() * 0.2)).toFixed(0));
                 userProfile.balance += amountWon;
 
                 //Save balance
