@@ -16,7 +16,7 @@ module.exports = {
 userId: 490196736103677975,
             });
             
-            
+            userProfile.balance += 1000;
 
             //Date Format Options (CST)
             var options = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'CST' };
