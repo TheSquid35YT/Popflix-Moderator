@@ -15,12 +15,15 @@ module.exports = {
                 userId: message.author.id,
             });
 
+            //Date Format Options (CST)
+            var options = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'CST' };
+
             //Check if the user has a UserProfile
             if (userProfile) {
                 const lastDailyDate = userProfile.lastDailyCollected?.toDateString();
                 const currentDate = new Date().toDateString();
 
-                if (lastDailyDate === currentDate) {
+                if (new Intl.DateTimeFormat('en-US', options).format(new Date(lastDailyDate)) === new Intl.DateTimeFormat('en-US', options).format(new Date(currentDate))) {
                     message.reply("You have already claimed your Daily Reward!");
                     return;
                 };
@@ -33,9 +36,13 @@ module.exports = {
             //Check dailyStreakMultiplier
             var yesterday = new Date();
             yesterday.setDate(yesterday.getDate() - 1);
-            if (userProfile.lastDailyCollected == yesterday) {
+            yesterday = new Intl.DateTimeFormat('en-US', options).format(yesterday);
+
+            if (new Intl.DateTimeFormat('en-US', options).format(userProfile.lastDailyCollected) === yesterday) {
                 //Increase dailyStreakMultiplier
                 userProfile.dailyStreakMultiplier += 0.01;
+            } else {
+                userProfile.dailyStreakMultiplier = 1.00;
             };
 
             //Update the balance and last daily claim date
