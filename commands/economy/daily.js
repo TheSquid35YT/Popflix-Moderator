@@ -28,7 +28,7 @@ userId: 490196736103677975,
 
                 if (new Intl.DateTimeFormat('en-US', options).format(new Date(lastDailyDate)) === new Intl.DateTimeFormat('en-US', options).format(new Date(currentDate))) {
                     message.reply("You have already claimed your Daily Reward!");
-                    return;
+                    //return;
                 };
             } else {
                 userProfile = new UserProfile({
