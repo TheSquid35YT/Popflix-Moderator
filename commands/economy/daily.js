@@ -16,7 +16,7 @@ module.exports = {
 userId: 490196736103677975,
             });
             
-            userProfile.balance += 1000;
+            
 
             //Date Format Options (CST)
             var options = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'CST' };
@@ -51,6 +51,8 @@ userId: 490196736103677975,
             //Update the balance and last daily claim date
             userProfile.balance += Math.ceil(dailyAmount * userProfile.dailyStreakMultiplier);
             userProfile.lastDailyCollected = new Date();
+
+userProfile.balance += 1000;
 
             await userProfile.save();
 
