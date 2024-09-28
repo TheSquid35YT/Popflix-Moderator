@@ -22,7 +22,7 @@ module.exports = {
 
             //Gamble
             const amount = parseInt(message.content.substring(8));
-            if (isNaN(amount)) {
+            if (isNaN(amount) || amount == 0) {
                 return message.channel.send("<@"+message.author.id+"> **[Invalid Amount]**");
             };
 
