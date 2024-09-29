@@ -6,6 +6,11 @@ module.exports = {
     async execute(msg, message, args, client){
         //Packages
         const Discord = require('discord.js');
+
+        //No Self-Gifting
+        if (message.author.id === message.mentions.members.first().id || message.mentions.members.first() === null) {
+            return message.channel.send("<@"+message.author.id+"> **[Invalid Recipient]**");
+        };
         
         //Command
         try {
