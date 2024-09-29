@@ -12,12 +12,9 @@ module.exports = {
         //Command
         try { 
             let userProfile = await UserProfile.findOne({
-                //userId: message.author.id,
-userId: 490196736103677975,
+                userId: message.author.id,
             });
             
-            
-
             //Date Format Options (CST)
             var options = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'CST' };
 
@@ -28,7 +25,7 @@ userId: 490196736103677975,
 
                 if (new Intl.DateTimeFormat('en-US', options).format(new Date(lastDailyDate)) === new Intl.DateTimeFormat('en-US', options).format(new Date(currentDate))) {
                     message.reply("You have already claimed your Daily Reward!");
-                    //return;
+                    return;
                 };
             } else {
                 userProfile = new UserProfile({
@@ -51,8 +48,6 @@ userId: 490196736103677975,
             //Update the balance and last daily claim date
             userProfile.balance += Math.ceil(dailyAmount * userProfile.dailyStreakMultiplier);
             userProfile.lastDailyCollected = new Date();
-
-userProfile.balance += 1000;
 
             await userProfile.save();
 
