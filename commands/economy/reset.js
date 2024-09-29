@@ -21,7 +21,7 @@ module.exports = {
             var previousDailyStreakMultiplier = userProfile.dailyStreakMultiplier;
             userProfile.balance = 0;
             userProfile.lastDailyCollected = yesterday;
-            userProfile.dailyStreakMultiplier = 1.00;
+            userProfile.dailyStreakMultiplier = 100;
 
             await userProfile.save();
 

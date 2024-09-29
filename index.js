@@ -118,6 +118,12 @@ client.on('messageCreate', message => {
     } else if (message.content.toLowerCase().startsWith('!daily')) {
       //!daily command
       client.economyCommands.get('daily').execute(msg, message, client);
+    } else if (message.content.toLowerCase().startsWith('!give') || message.content.toLowerCase().startsWith('!gift')) {
+      //!give / !gift command
+      client.economyCommands.get('give').execute(msg, message, client);
+    } else if (message.content.toLowerCase().startsWith('!print') && message.author.id === '412278016429785089') {
+      //!print command
+      client.economyCommands.get('print').execute(msg, message, client);
     } else if (message.content.toLowerCase().startsWith('!gamble')) {
       //!gamble command
       client.economyCommands.get('gamble').execute(msg, message, client);

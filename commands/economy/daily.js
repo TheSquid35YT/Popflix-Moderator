@@ -40,22 +40,25 @@ module.exports = {
 
             if (new Intl.DateTimeFormat('en-US', options).format(userProfile.lastDailyCollected) === yesterday) {
                 //Increase dailyStreakMultiplier
-                userProfile.dailyStreakMultiplier += 0.01;
+                userProfile.dailyStreakMultiplier += 1;
             } else {
-                userProfile.dailyStreakMultiplier = 1.00;
+                userProfile.dailyStreakMultiplier = 100;
             };
 
             //Update the balance and last daily claim date
-            userProfile.balance += Math.ceil(dailyAmount * userProfile.dailyStreakMultiplier);
+            const streakMultiplier = (userProfile.dailyStreakMultiplier/100);
+            userProfile.balance += Math.ceil(dailyAmount * streakMultiplier);
             userProfile.lastDailyCollected = new Date();
 
             await userProfile.save();
 
+            userProfile.dailyStreakMultiplier = 103;
+
             //Claim Daily Reward
             message.reply({
                 embeds: [{
-                    title: "Claimed "+(Math.ceil(dailyAmount * userProfile.dailyStreakMultiplier))+" <:PopflixCoin:1289329625792774155>",
-                    description: "Your new balance is: **"+userProfile.balance+"** <:PopflixCoin:1289329625792774155>\nYour Daily Streak Multiplier is: **"+userProfile.dailyStreakMultiplier+"x**",
+                    title: "Claimed "+(Math.ceil(dailyAmount * streakMultiplier))+" <:PopflixCoin:1289329625792774155>",
+                    description: "Your new balance is: **"+userProfile.balance+"** <:PopflixCoin:1289329625792774155>\nYour Daily Streak Multiplier is: **"+streakMultiplier+"x**",
                     color: parseInt("00f53d", 16)
                 }]
             });

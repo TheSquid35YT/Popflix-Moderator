@@ -13,8 +13,8 @@ const userProfileSchema = new Schema({
         type: Date,
     },
     dailyStreakMultiplier: {
-        type: mongoose.Types.Decimal128,
-        default: 1.00,
+        type: Number,
+        default: 100,
     }
 },
 { timestamps: true });

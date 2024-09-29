@@ -21,10 +21,19 @@ module.exports = {
             };
 
             //Gamble
-            const amount = parseInt(message.content.substring(8));
-            if (isNaN(amount) || amount == 0) {
-                return message.channel.send("<@"+message.author.id+"> **[Invalid Amount]**");
+            var amount = 0;
+            if ((message.content.substring(8)).toLowerCase().includes('all')) {
+                amount = userProfile.balance;
+            } else {
+                amount = parseInt(message.content.substring(8));
+                if (isNaN(amount) || amount < 1) {
+                    return message.channel.send("<@"+message.author.id+"> **[Invalid Amount]**");
+                };
             };
+            /*const amount = parseInt(message.content.substring(8));
+            if (isNaN(amount) || amount < 1) {
+                return message.channel.send("<@"+message.author.id+"> **[Invalid Amount]**");
+            };*/
 
             if (amount > userProfile.balance) {
                 return message.reply({
@@ -83,7 +92,7 @@ module.exports = {
             };
 
         } catch (error) {
-            console.log("BALANCE COMMAND ERROR: "+error);
+            console.log("GAMBLE COMMAND ERROR: "+error);
         };
     }
 };
