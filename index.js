@@ -112,7 +112,7 @@ client.on('messageCreate', message => {
     } else if (message.content.toLowerCase().startsWith('!reset') && message.author.id === '412278016429785089') {
       //!reset command (Only For The_Squid_35)
       client.economyCommands.get('reset').execute(msg, message, client);
-    } else if (message.content.toLowerCase().startsWith('!balance')) {
+    } else if (message.content.toLowerCase().startsWith('!balance') || message.content.toLowerCase().startsWith('!bal')) {
       //!balance command
       client.economyCommands.get('balance').execute(msg, message, client);
     } else if (message.content.toLowerCase().startsWith('!daily')) {
@@ -127,6 +127,9 @@ client.on('messageCreate', message => {
     } else if (message.content.toLowerCase().startsWith('!gamble')) {
       //!gamble command
       client.economyCommands.get('gamble').execute(msg, message, client);
+    } else if (message.content.toLowerCase().startsWith('!slots')) {
+      //!slots command
+      client.economyCommands.get('slots').execute(msg, message, client);
     }; // Add an "else if" for new commands here
 
     //Delete Japanese Character Message

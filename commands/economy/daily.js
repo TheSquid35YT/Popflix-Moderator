@@ -17,14 +17,18 @@ module.exports = {
             
             //Date Format Options (CST)
             var options = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'CST' };
+            var timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'CST' };
 
             //Check if the user has a UserProfile
-            if (userProfile) {
-                const lastDailyDate = userProfile.lastDailyCollected?.toDateString();
-                const currentDate = new Date().toDateString();
+            if (userProfile && (userProfile?.lastDailyCollected != null)) {
+                const lastDailyDate = new Intl.DateTimeFormat('en-US', options).format(new Date(userProfile.lastDailyCollected));
+                const currentDate = new Intl.DateTimeFormat('en-US', options).format(new Date());
+                const timeRemainStart = new Intl.DateTimeFormat('en-US', timeOptions).format(new Date());
+                //const timeRemainEnd = "`"+(23 - timeRemainStart.toString().substring(0,2))+" Hrs & "+(60 - timeRemainStart.toString().substring(3,5))+" Min` until Reset";
+                const timeRemainEnd = "**"+(23 - timeRemainStart.toString().substring(0,2))+"** hrs **"+(60 - timeRemainStart.toString().substring(3,5))+"** min";
 
-                if (new Intl.DateTimeFormat('en-US', options).format(new Date(lastDailyDate)) === new Intl.DateTimeFormat('en-US', options).format(new Date(currentDate))) {
-                    message.reply("You have already claimed your Daily Reward!");
+                if (lastDailyDate === currentDate) {
+                    message.reply("You have already claimed your Daily Reward! \nCome back in "+timeRemainEnd+" to claim it again!");
                     return;
                 };
             } else {
@@ -51,8 +55,6 @@ module.exports = {
             userProfile.lastDailyCollected = new Date();
 
             await userProfile.save();
-
-            userProfile.dailyStreakMultiplier = 103;
 
             //Claim Daily Reward
             message.reply({

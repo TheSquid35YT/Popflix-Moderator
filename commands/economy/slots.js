@@ -1,14 +1,57 @@
 const UserProfile = require('../../schemas/UserProfile');
 
 module.exports = {
-    name: 'gamble',
-    description: 'gamble some money on a 50/50',
+    name: 'slots',
+    description: 'gamble some money in a Slot Machine',
     async execute(msg, message, args, client){
         //Packages
         const Discord = require('discord.js');
         
         //Command
-        try {
+        const g1 = ['<a:11:1289859395357769739>', '<a:bleach:1289859414072754236>', '<a:emoji_28:1289859425359761409>', '<a:emoji_50:1289859438634598492>', '<a:mason:1289859451054067774>'];
+        const groups = [g1];
+
+        const slot = await message.reply({
+            embeds: [{
+                title: "🎰 SLOTS 🎰",
+                description: "⌞ <a:Slots_1_2:1289820548087418961> <a:Slots_1_2:1289851677352136724> <a:Slots_1_3:1289851718393139252> ⌟"
+            }]
+        });
+
+        slot.edit({
+            embeds: [{
+                title: "🎰 SLOTS 🎰",
+                description: "⌞ <a:Slots_1_2:1289820548087418961> <a:Slots_1_2:1289851677352136724> <a:Slots_1_3:1289851718393139252> ⌟"
+            }]
+        });
+
+        setTimeout(() => {
+            slot.edit({
+                embeds: [{
+                    title: "🎰 SLOTS 🎰",
+                    description: "⌞ O <a:Slots_1_2:1289851677352136724> <a:Slots_1_3:1289851718393139252> ⌟"
+                }]
+            });
+
+            setTimeout(() => {
+                slot.edit({
+                    embeds: [{
+                        title: "🎰 SLOTS 🎰",
+                        description: "⌞ O O <a:Slots_1_3:1289851718393139252> ⌟"
+                    }]
+                });
+                setTimeout(() => {
+                    slot.edit({
+                        embeds: [{
+                            title: "🎰 SLOTS 🎰",
+                            description: "⌞ O O O ⌟"
+                        }]
+                    });
+                }, "1500");
+            }, "2000");
+        }, "3000");
+
+        /*try {
             let userProfile = await UserProfile.findOne({
                 userId: message.author.id,
             });
@@ -30,10 +73,6 @@ module.exports = {
                     return message.channel.send("<@"+message.author.id+"> **[Invalid Amount]**");
                 };
             };
-            /*const amount = parseInt(message.content.substring(8));
-            if (isNaN(amount) || amount < 1) {
-                return message.channel.send("<@"+message.author.id+"> **[Invalid Amount]**");
-            };*/
 
             if (amount > userProfile.balance) {
                 return message.reply({
@@ -92,7 +131,7 @@ module.exports = {
             };
 
         } catch (error) {
-            console.log("GAMBLE COMMAND ERROR: "+error);
-        };
+            console.log("SLOTS COMMAND ERROR: "+error);
+        };*/
     }
 };
