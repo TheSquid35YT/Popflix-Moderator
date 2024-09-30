@@ -1,15 +1,14 @@
 const UserProfile = require('../../schemas/UserProfile');
-const robbery = require('./robbery.js');
 
 module.exports = {
-    name: 'gamble',
-    description: 'gamble some money on a 50/50',
+    name: 'blackjack',
+    description: 'gamble some money in a game of Blackjack',
     async execute(msg, message, args, client){
         //Packages
         const Discord = require('discord.js');
         
         //Command
-        try {
+        /*try {
             let userProfile = await UserProfile.findOne({
                 userId: message.author.id,
             });
@@ -31,10 +30,6 @@ module.exports = {
                     return message.channel.send("<@"+message.author.id+"> **[Invalid Amount]**");
                 };
             };
-            /*const amount = parseInt(message.content.substring(8));
-            if (isNaN(amount) || amount < 1) {
-                return message.channel.send("<@"+message.author.id+"> **[Invalid Amount]**");
-            };*/
 
             if (amount > userProfile.balance) {
                 return message.reply({
@@ -43,11 +38,6 @@ module.exports = {
                         description: "Your balance is: **"+userProfile.balance+"** <:PopflixCoin:1289329625792774155>\nYou tried to gamble: **"+amount+"** <:PopflixCoin:1289329625792774155>",
                         color: parseInt("f50000", 16)
                     }]
-                }).then(embedMessage => {
-                    //Random Robbery Chance
-                    if (userProfile.balance > 1 && Math.floor(Math.random() * 20) === 0) {
-                        robbery.execute(embedMessage, message);
-                    };
                 });
             };
 
@@ -70,11 +60,6 @@ module.exports = {
                             },
                             color: parseInt("f50000", 16)
                         }]
-                    }).then(embedMessage => {
-                        //Random Robbery Chance
-                        if (userProfile.balance > 1 && Math.floor(Math.random() * 20) === 0) {
-                            robbery.execute(embedMessage, message);
-                        };
                     });
                 } else {
                     return message.reply({
@@ -83,11 +68,6 @@ module.exports = {
                             description: "You tried to gamble: **"+amount+"** <:PopflixCoin:1289329625792774155>\nYour new balance is: **"+userProfile.balance+"** <:PopflixCoin:1289329625792774155>",
                             color: parseInt("f50000", 16)
                         }]
-                    }).then(embedMessage => {
-                        //Random Robbery Chance
-                        if (userProfile.balance > 1 && Math.floor(Math.random() * 20) === 0) {
-                            robbery.execute(embedMessage, message);
-                        };
                     });
                 };
             } else { //User won
@@ -104,16 +84,11 @@ module.exports = {
                         description: "You won: **"+amountWon+"** <:PopflixCoin:1289329625792774155>\nYour new balance is: **"+userProfile.balance+"** <:PopflixCoin:1289329625792774155>",
                         color: parseInt("00f53d", 16)
                     }]
-                }).then(embedMessage => {
-                    //Random Robbery Chance
-                    if (userProfile.balance > 1 && Math.floor(Math.random() * 20) === 0) {
-                        robbery.execute(embedMessage, message);
-                    };
                 });
             };
 
         } catch (error) {
             console.log("GAMBLE COMMAND ERROR: "+error);
-        };
+        };*/
     }
 };

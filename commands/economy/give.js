@@ -1,4 +1,5 @@
 const UserProfile = require('../../schemas/UserProfile');
+const robbery = require('./robbery.js');
 
 module.exports = {
     name: 'give',
@@ -49,6 +50,11 @@ module.exports = {
                             description: "Your balance is: **"+userProfileOwner.balance+"** <:PopflixCoin:1289329625792774155>\nYou tried to give: **"+amount+"** <:PopflixCoin:1289329625792774155> to <@"+(message.mentions.members.first().id)+">",
                             color: parseInt("f50000", 16)
                         }]
+                    }).then(embedMessage => {
+                        //Random Robbery Chance
+                        if (userProfile.balance > 1 && Math.floor(Math.random() * 20) === 0) {
+                            robbery.execute(embedMessage, message);
+                        };
                     });
                 };
 
@@ -67,6 +73,11 @@ module.exports = {
                         description: "You gave: **"+amount+"** <:PopflixCoin:1289329625792774155> to <@"+(message.mentions.members.first().id)+">\nYour new balance is: **"+userProfileOwner.balance+"** <:PopflixCoin:1289329625792774155>\n<@"+(message.mentions.members.first().id)+">\'s new balance is: **"+userProfileReceiver.balance+"** <:PopflixCoin:1289329625792774155>",
                         color: parseInt("00f53d", 16)
                     }]
+                }).then(embedMessage => {
+                    //Random Robbery Chance
+                    if (userProfileOwner.balance > 1 && Math.floor(Math.random() * 20) === 0) {
+                        robbery.execute(embedMessage, message);
+                    };
                 });
             } catch (error) {
                 console.log("GIVE COMMAND ERROR: "+error);

@@ -2,13 +2,6 @@
 const Discord = require('discord.js');
 require('dotenv').config();
 const mongoose = require('mongoose')
-//const ytdl = require('ytdl-core');
-//const opusscript = require("opusscript");
-//const ffmpeg = require('ffmpeg-static');
-//const clipboardy = require('clipboardy');
-//const TwitchWebhook = require('twitch-webhook');
-//const rss = require('rss-converter');
-//const config = require('./config.json');
 
 //Keep the bot alive
 const keep_alive = require('./keep_alive.js')
@@ -52,8 +45,6 @@ var postedLosers = true;
 client.on('ready', () => {
   console.log("I'm in");
   console.log(client.user.username);
-  //client.user.setActivity('Kitten in the VC', { type: 'LISTENING' });
-  //client.user.setPresence( activities: [{ name: 'Kitten in the VC', type: ActivityType.Listening }]);
   client.user.setActivity({ name: 'Kitten in the VC', type: 2, });
 
   //Birthday Wishes
@@ -118,7 +109,7 @@ client.on('messageCreate', message => {
     } else if (message.content.toLowerCase().startsWith('!daily')) {
       //!daily command
       client.economyCommands.get('daily').execute(msg, message, client);
-    } else if (message.content.toLowerCase().startsWith('!give') || message.content.toLowerCase().startsWith('!gift')) {
+    } else if (message.content.toLowerCase().startsWith('!give') || message.content.toLowerCase().startsWith('!gift') || message.content.toLowerCase().startsWith('!pay')) {
       //!give / !gift command
       client.economyCommands.get('give').execute(msg, message, client);
     } else if (message.content.toLowerCase().startsWith('!print') && message.author.id === '412278016429785089') {
@@ -185,7 +176,14 @@ client.on('messageCreate', message => {
     if (message.content.toLowerCase().includes('.gorf')) {
       message.reply("❗❗ GIF DETECTED <@412278016429785089> ❗❗");
     };
+
+    //Award PopflixCoin to message reacter
+    if ((!message.content.startsWith("!")) && (Math.floor(Math.random() * 35) === 0)) {
+      client.economyCommands.get('randomClaim').execute(message);
+    };
   };
+
+
 
   //const dropBattery = Math.floor(Math.random());
   //console.log(dropBattery);

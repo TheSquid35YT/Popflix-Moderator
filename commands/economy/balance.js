@@ -1,4 +1,5 @@
 const UserProfile = require('../../schemas/UserProfile');
+const robbery = require('./robbery.js');
 
 module.exports = {
     name: 'balance',
@@ -21,14 +22,18 @@ module.exports = {
             };
 
             //Return the balance
-            message.reply({
+            const balance = message.reply({
                 embeds: [{
                     title: message.author.username+"\'s Balance",
                     description: "Your balance is: **"+userProfile.balance+"** <:PopflixCoin:1289329625792774155>\nYour Daily Streak Multiplier is: **"+(userProfile.dailyStreakMultiplier/100)+"x**",
                     color: parseInt("00f5d8", 16)
                 }]
+            }).then(embedMessage => {
+                //Random Robbery Chance
+                if (userProfile.balance > 1 && Math.floor(Math.random() * 20) === 0) {
+                    robbery.execute(embedMessage, message);
+                };
             });
-
         } catch (error) {
             console.log("BALANCE COMMAND ERROR: "+error);
         };

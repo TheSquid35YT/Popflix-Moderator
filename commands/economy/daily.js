@@ -1,4 +1,5 @@
 const UserProfile = require('../../schemas/UserProfile');
+const robbery = require('./robbery.js');
 
 const dailyAmount = 500;
 
@@ -63,6 +64,11 @@ module.exports = {
                     description: "Your new balance is: **"+userProfile.balance+"** <:PopflixCoin:1289329625792774155>\nYour Daily Streak Multiplier is: **"+streakMultiplier+"x**",
                     color: parseInt("00f53d", 16)
                 }]
+            }).then(embedMessage => {
+                //Random Robbery Chance
+                if (userProfile.balance > 1 && Math.floor(Math.random() * 20) === 0) {
+                    robbery.execute(embedMessage, message);
+                };
             });
 
         } catch (error) {
