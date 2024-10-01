@@ -52,7 +52,7 @@ module.exports = {
                         }]
                     }).then(embedMessage => {
                         //Random Robbery Chance
-                        if (userProfile.balance > 1 && Math.floor(Math.random() * 20) === 0) {
+                        if (userProfileOwner.balance > 1 && Math.floor(Math.random() * 20) === 0) {
                             robbery.execute(embedMessage, message);
                         };
                     });

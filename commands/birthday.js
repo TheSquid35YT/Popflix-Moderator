@@ -138,12 +138,17 @@ module.exports = {
     }
     //August
     //Sean Price (August 9th, 2004)
-    if (d.toLocaleTimeString('en-US', options) === 'August 9, 9:00 AM UTC') {
+    if (d.toLocaleTimeString('en-US', options) === 'August 9, 5:00 AM UTC') {
       //12:00 AM CST is "5:00:00 AM UTC" After Springing Ahead
       textChannel.send('Hey @everyone, it\'s <@291373805769850882>\'s Birthday! **Happy  Birthday <@291373805769850882>!**');
     }
     //September
     //October
+    //Aleks Kruzszewski (October 1st, 2004)
+    if (d.toLocaleTimeString('en-US', options) === 'October 1, 5:00 AM UTC') {
+      //12:00 AM CST is "5:00:00 AM UTC" After Springing Ahead
+      textChannel.send('Hey @everyone, it\'s <@496440602494238722>\'s Birthday! **Happy  Birthday <@496440602494238722>!**');
+    }
     //November
       //Victoria (November 9th, 2005)
 		  if (d.toLocaleTimeString('en-US', options) === 'November 9, 6:00 AM UTC') {

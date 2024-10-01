@@ -1,4 +1,5 @@
 const UserProfile = require('../../schemas/UserProfile');
+const PopflixStats = require('../../schemas/PopflixStats.js');
 const robbery = require('./robbery.js');
 
 module.exports = {
@@ -9,7 +10,7 @@ module.exports = {
         const Discord = require('discord.js');
         
         //Command
-        try {
+        //try {
             let userProfile = await UserProfile.findOne({
                 userId: message.author.id,
             });
@@ -23,20 +24,21 @@ module.exports = {
 
             //Gamble
             var amount = 0;
+            var soul = false;
+            let adminRole = message.guild.roles.cache.find(r => r.id === "731920530470600824");
             if ((message.content.substring(8)).toLowerCase().includes('all') && userProfile.balance > 0) {
                 amount = userProfile.balance;
+            } else if ((message.content.substring(8)).toLowerCase().includes('soul') && userProfile.balance === 0) {
+                soul = true;
+                amount = 0//5;
             } else {
                 amount = parseInt(message.content.substring(8));
                 if (isNaN(amount) || amount < 1) {
                     return message.channel.send("<@"+message.author.id+"> **[Invalid Amount]**");
                 };
             };
-            /*const amount = parseInt(message.content.substring(8));
-            if (isNaN(amount) || amount < 1) {
-                return message.channel.send("<@"+message.author.id+"> **[Invalid Amount]**");
-            };*/
 
-            if (amount > userProfile.balance) {
+            if (amount > userProfile.balance && soul === false) {
                 return message.reply({
                     embeds: [{
                         title: "Insufficient Balance",
@@ -54,10 +56,84 @@ module.exports = {
             const didWin = Math.random() > 0.5;
 
             if (!didWin) { //User didn't win
-                userProfile.balance -= amount;
+                if (soul === false) {
+                    userProfile.balance -= amount;
 
-                //Save balance
-                await userProfile.save();
+                    //Save balance
+                    await userProfile.save();
+                } else {
+                    if (message.author.id !== '412278016429785089') {
+                        let popflixStats = await PopflixStats.findOne({
+                            dataBaseID: 'POPFLIX',
+                        });
+
+                        //Check if the popflixStats doesn't exist
+                        if (!popflixStats) {
+                            popflixStats = new PopflixStats({
+                                dataBaseID: 'POPFLIX',
+                                timeOutReplace: []
+                            });
+                        };
+
+                        // Ensure the timeOutReplace field is initialized as an array
+                        if (!popflixStats.timeOutReplace) {
+                            popflixStats.timeOutReplace = [];
+                        };
+
+                        const now = new Date();
+                        var tenMin = (now.getHours()+":"+now.getMinutes()+":"+now.getSeconds());
+                        if (now.getMinutes() >= 50) {
+                            if (now.getHours() === 23) {
+                                tenMin = ("0:"+(10-(60-now.getMinutes()))+":"+now.getSeconds());
+                            } else {
+                                tenMin = ((now.getHours()+1)+":"+(10-(60-now.getMinutes()))+":"+now.getSeconds());
+                            };
+                        } else {
+                            tenMin = (now.getHours()+":"+(now.getMinutes()+10)+":"+now.getSeconds());
+                        };
+
+                        popflixStats.timeOutReplace.splice(popflixStats.timeOutReplace.indexOf(message.author.id), 1);
+                        popflixStats.timeOutReplace.push({
+                            id: message.author.id,
+                            time: tenMin,
+                            roles: message.member.roles.cache.map(role => role.id)
+                        });
+
+                        console.log(message.member.roles.cache.map(role => role.id).length);
+
+                        await popflixStats.save();
+                        //const adminReplaceArray = popflixStats.adminIReplaceData;
+                        //adminReplaceArray.push(message.author.id+"-"+tenMin);
+                        //popflixStats.adminIReplaceData = adminReplaceArray;
+
+                        console.log(tenMin);
+
+                        //Remove all roles and timeout
+                        //message.channel.send(popflixStats.timeOutReplace[2].roles[0]);
+                /*popflixStats.timeOutReplace.forEach(role => {
+                        popflixStats.timeOutReplace[2].roles.forEach(role => {
+                            //if (role) {
+                                message.channel.send(popflixStats.timeOutReplace[2].roles[i]);
+                                //message.member.roles.remove(role);
+                            //} else {
+                            //    message.channel.send("BAD "+role);
+                            //};
+                        });*/
+                        //adminReplace.adminIReplaceData.push([message.author.id,'NOTHING']);
+                        //message.member.roles.remove(adminRole);
+                        //message.author.id;
+                        //message.member.timeout(10 * 60_000, 'Gambled soul and lost 🐴');
+                        
+                        //Notify user
+                        return message.reply({
+                            embeds: [{
+                                title: "❌ YOU LOST ❌",
+                                description: "You tried to gamble: **YOUR SOUL**\nYour new balance is: **"+userProfile.balance+"** <:PopflixCoin:1289329625792774155>",
+                                color: parseInt("f50000", 16)
+                            }]
+                        });
+                    };
+                };
 
                 //Notify user
                 if (userProfile.balance === 1) {
@@ -112,8 +188,8 @@ module.exports = {
                 });
             };
 
-        } catch (error) {
-            console.log("GAMBLE COMMAND ERROR: "+error);
-        };
+        //} catch (error) {
+        //    console.log("GAMBLE COMMAND ERROR: "+error);
+        //};
     }
 };

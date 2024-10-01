@@ -2,6 +2,7 @@
 const Discord = require('discord.js');
 require('dotenv').config();
 const mongoose = require('mongoose')
+const PopflixStats = require('./schemas/PopflixStats.js');
 
 //Keep the bot alive
 const keep_alive = require('./keep_alive.js')
@@ -36,7 +37,7 @@ const muted = ['777273578230906970'];
 const japanese = ['あ','い','う','え','お','か','き','く','け','こ','さ','し','す','せ','そ','た','ち','つ','て','と','な','に','ぬ','ね','の','は','ひ','ふ','へ','ほ','ま','み','む','め','も','や','ゆ','よ','ら','り','る','れ','ろ','わ','を','ん'];
 
 //Admin Abuse Synonyms
-const adminAbuse = ['admin abuse','admin perms','owner abuse','owner perms','mod abuse','mod perms','abusing admin','abusing mod','abusing owner','abusive admin','abusive mod','abusive owner','abuse admin','abuse mod','abuse owner','power abuse','abuse power','abusing power','josh abuse','!kick <@777270048288407593>','!kick @Popflix Moderator','i hate popflix bot','i hate popflix mod','i hate popflix moderator'];
+const adminAbuse = ['admin abuse','admin perms','owner abuse','owner perms','mod abuse','mod perms','abusing admin','abusing mod','abusing owner','abusive admin','abusive mod','abusive owner','abuse admin','abuse mod','abuse owner','power abuse','abuse power','abusing power','josh abuse','!kick <@777270048288407593>','!kick @Popflix Moderator','i hate popflix bot','i hate popflix mod','i hate popflix moderator','admin aboose'];
 
 //No Gif Thursday
 var postedLosers = true;
@@ -47,22 +48,71 @@ client.on('ready', () => {
   console.log(client.user.username);
   client.user.setActivity({ name: 'Kitten in the VC', type: 2, });
 
-  //Birthday Wishes
-  setInterval(() => {
+  //Every Minute Execution
+  setInterval(async () => {
+    //Birthday Wishes
 		client.commands.get('birthday').execute(client);
 
-    //And No Gif Thursday Conclusion
-    var now = new Date();
-    var nowOptions = { weekday: 'long', timeZone: 'CST' };
-    var friday = new Intl.DateTimeFormat('en-US', nowOptions).format(now);
-    if (friday == "Friday" && postedLosers == false) {
-      var textChannel = client.channels.cache.find(
-        channel => channel.id === '731713435506704424'//Popflix
-      );
-      textChannel.send("**__No Gif Thursday Losers__**\n"+fs.readFileSync('./gifLosers.txt', 'utf8'));
-      fs.writeFileSync('./gifLosers.txt', '');
-      postedLosers = true;
+    //Replace Admin
+    try {
+      let popflixStats = await PopflixStats.findOne({
+        dataBaseID: 'POPFLIX',
+      });
+
+      //Check if the popflixStats doesn't exist
+      if (!popflixStats) {
+        popflixStats = new PopflixStats({
+          dataBaseID: 'POPFLIX',
+        });
+      };
+
+      // Ensure the timeOutReplace field is initialized as an array
+      if (!popflixStats.timeOutReplace) {
+        popflixStats.timeOutReplace = [];
+      };
+
+      popflixStats.timeOutReplace[2].roles.forEach(role => {
+        console.log(role);
+      });
+
+      //const admins = await AdminReplace.find();
+
+      /*admins.forEach(admin => {
+        admin.adminIReplaceData.forEach(async ([adminId, timestamp]) => {
+            const timeSinceRemoval = Date.now() - new Date(timestamp).getTime();
+            const tenMinutes = 10 * 60 * 1000;
+
+            // Check if 10 minutes have passed since the timestamp
+            if (timeSinceRemoval >= tenMinutes) {
+                console.log(`Re-granting admin role to ${adminId}`);
+                
+                // Remove the entry from adminHistory or update the user role
+                admin.adminIReplaceData = user.adminIReplaceData.filter(entry => entry[0] !== adminId);
+                await admin.save();  // Save the changes to the database
+            };
+        });
+      });*/
+
+
+      /*let giveAdmin = await GiveAdmin.findOne({
+        adminIReplaceData: [[''],['']],
+      });*/
+    } catch (giveAdminError) {
+
     };
+
+    //And No Gif Thursday Conclusion
+    //var now = new Date();
+    //var nowOptions = { weekday: 'long', timeZone: 'CST' };
+    //var friday = new Intl.DateTimeFormat('en-US', nowOptions).format(now);
+    //if (friday == "Friday" && postedLosers == false) {
+    //  var textChannel = client.channels.cache.find(
+    //    channel => channel.id === '731713435506704424'//Popflix
+      //);
+      //textChannel.send("**__No Gif Thursday Losers__**\n"+fs.readFileSync('./gifLosers.txt', 'utf8'));
+      //fs.writeFileSync('./gifLosers.txt', '');
+      //postedLosers = true;
+    //};
 	}, 60000); //Check every minute
 });
 
