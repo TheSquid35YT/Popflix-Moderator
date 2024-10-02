@@ -1,16 +1,28 @@
 const { Schema, model, default: mongoose } = require('mongoose');
 
+//Replace roles after gamble soul timeout ends
 const timeOutReplaceSchema = new Schema({
     id: {
-        type: String,  // First string
-        required: true
+        type: String, //ID of the member
+        required: true,
     },
     time: {
-        type: String,  // Second string
-        required: true
+        type: Date, //Time for timeout to be removed
+        required: true,
     },
-    roles: {
-        type: [String]
+    adminCheck: { 
+        type: Boolean, //Check whether or not to give admin
+        required: true,
+    }
+});
+
+//No Gif Thursday contenders and losers
+const noGifThursdaySchema = new Schema({
+    contenders: {
+        type: [String], //Array of member IDs of those who have sent a message on No Gif Thursday
+    },
+    losers: {
+        type: [String], //Array of member IDs of those who have sent a Gif on No Gif Thursday
     }
 });
 
@@ -19,8 +31,11 @@ const popflixStatsSchema = new Schema({
         type: String,
         required: true,
     },
-    timeOutReplace: {
+    timeOutReplace: { //Replace roles after gamble soul timeout ends
         type: [timeOutReplaceSchema],
+    },
+    noGifThursday: { //No Gif Thursday contenders and losers
+        type: noGifThursdaySchema,
     }
     /*userId: {
         type: String,

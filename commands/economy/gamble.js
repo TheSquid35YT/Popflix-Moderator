@@ -1,6 +1,8 @@
 const UserProfile = require('../../schemas/UserProfile');
 const PopflixStats = require('../../schemas/PopflixStats.js');
 const robbery = require('./robbery.js');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = {
     name: 'gamble',
@@ -30,7 +32,7 @@ module.exports = {
                 amount = userProfile.balance;
             } else if ((message.content.substring(8)).toLowerCase().includes('soul') && userProfile.balance === 0) {
                 soul = true;
-                amount = 0//5;
+                amount = 5;
             } else {
                 amount = parseInt(message.content.substring(8));
                 if (isNaN(amount) || amount < 1) {
@@ -80,49 +82,33 @@ module.exports = {
                             popflixStats.timeOutReplace = [];
                         };
 
+                        //Get end time
                         const now = new Date();
-                        var tenMin = (now.getHours()+":"+now.getMinutes()+":"+now.getSeconds());
-                        if (now.getMinutes() >= 50) {
-                            if (now.getHours() === 23) {
-                                tenMin = ("0:"+(10-(60-now.getMinutes()))+":"+now.getSeconds());
-                            } else {
-                                tenMin = ((now.getHours()+1)+":"+(10-(60-now.getMinutes()))+":"+now.getSeconds());
-                            };
-                        } else {
-                            tenMin = (now.getHours()+":"+(now.getMinutes()+10)+":"+now.getSeconds());
-                        };
+                        const soulDuration = 10;
+                        now.setMinutes(now.getMinutes() + soulDuration);
+                        const soulDurationTime = now.toLocaleString()
 
-                        popflixStats.timeOutReplace.splice(popflixStats.timeOutReplace.indexOf(message.author.id), 1);
+                        //Determin if member is an Admin
+                        var isAdmin = false;
+                        const adminIDs = fs.readFileSync(path.join(__dirname, '..', '..', 'adminIDs.txt'), 'utf8');
+                        if (adminIDs.includes(message.author.id)) { //soullessMember is an Admin
+                            isAdmin = true;
+                        };
+                        
+                        //Add the member to the timeOutReplace list
                         popflixStats.timeOutReplace.push({
                             id: message.author.id,
-                            time: tenMin,
-                            roles: message.member.roles.cache.map(role => role.id)
+                            time: soulDurationTime,
+                            adminCheck: isAdmin
                         });
 
-                        console.log(message.member.roles.cache.map(role => role.id).length);
-
                         await popflixStats.save();
-                        //const adminReplaceArray = popflixStats.adminIReplaceData;
-                        //adminReplaceArray.push(message.author.id+"-"+tenMin);
-                        //popflixStats.adminIReplaceData = adminReplaceArray;
 
-                        console.log(tenMin);
-
-                        //Remove all roles and timeout
-                        //message.channel.send(popflixStats.timeOutReplace[2].roles[0]);
-                /*popflixStats.timeOutReplace.forEach(role => {
-                        popflixStats.timeOutReplace[2].roles.forEach(role => {
-                            //if (role) {
-                                message.channel.send(popflixStats.timeOutReplace[2].roles[i]);
-                                //message.member.roles.remove(role);
-                            //} else {
-                            //    message.channel.send("BAD "+role);
-                            //};
-                        });*/
-                        //adminReplace.adminIReplaceData.push([message.author.id,'NOTHING']);
-                        //message.member.roles.remove(adminRole);
-                        //message.author.id;
-                        //message.member.timeout(10 * 60_000, 'Gambled soul and lost 🐴');
+                        //Remove Admin and Time Out
+                        message.member.roles.remove('731920530470600824');
+                        setTimeout(() => {
+                            message.member.timeout(soulDuration * 60_000, 'Gambled soul and lost 💀');
+                        }, 100);
                         
                         //Notify user
                         return message.reply({

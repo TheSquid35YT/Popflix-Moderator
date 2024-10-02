@@ -72,7 +72,7 @@ module.exports = {
             const g = groups[groupChoice];
 
             //Get Slots Results
-            const result1 = (Math.floor(Math.random() * (5 - 1 + 1) + 1)) + 2;
+            var result1 = (Math.floor(Math.random() * (5 - 1 + 1) + 1)) + 2;
             var result2 = (Math.floor(Math.random() * (6 - 1 + 1) + 1)) + 2;
             var result3 = (Math.floor(Math.random() * (6 - 1 + 1) + 1)) + 2;
 
@@ -92,7 +92,8 @@ module.exports = {
             if (result1 === result2 && result2 === result3 && result3 === result1) { //Win
                 //Check for Imposter Chance
                 const imposterChance = 250; //(1/250)
-                if (Math.floor(Math.random() * imposterChance) === 1) { //Lose
+                if (Math.floor(Math.random() * imposterChance) === 0) { //Lose
+                    console.log("SUS");
                     result1 = 8;
                     result2 = 8;
                     result3 = 8;

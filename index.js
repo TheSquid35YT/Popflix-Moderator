@@ -1,14 +1,35 @@
 //Packages
 const Discord = require('discord.js');
+const { GatewayIntentBits } = require('discord.js');
 require('dotenv').config();
 const mongoose = require('mongoose')
 const PopflixStats = require('./schemas/PopflixStats.js');
+//const adminIDs = require('./adminIDs.txt');
 
 //Keep the bot alive
 const keep_alive = require('./keep_alive.js')
 
 //const client = new Discord.Client();
-const client = new Discord.Client({ intents: 53608447 });
+//const client = new Discord.Client({ intents: 53608447 });
+const client = new Discord.Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildEmojisAndStickers,
+    GatewayIntentBits.GuildIntegrations,
+    GatewayIntentBits.GuildWebhooks,
+    GatewayIntentBits.GuildInvites,
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildMessageTyping,
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.DirectMessageReactions,
+    GatewayIntentBits.DirectMessageTyping,
+    GatewayIntentBits.MessageContent
+  ]
+});
 const token = process.env.DISCORD_BOT_SECRET;
 
 //Command Handler
@@ -66,39 +87,24 @@ client.on('ready', () => {
         });
       };
 
-      // Ensure the timeOutReplace field is initialized as an array
-      if (!popflixStats.timeOutReplace) {
-        popflixStats.timeOutReplace = [];
-      };
+      popflixStats.timeOutReplace.forEach(async soullessMember => {
+        if (soullessMember.time < new Date()) {
+          const adminIDs = fs.readFileSync('./adminIDs.txt', 'utf8');
+          if (adminIDs.includes(soullessMember.id)) { //soullessMember is an Admin
+            //Add Admin
+            const popflixGuild = await client.guilds.fetch('731710405600215050');
+            const popflixMember = await popflixGuild.members.fetch(soullessMember.id);
+            popflixMember.roles.add('731920530470600824');
 
-      popflixStats.timeOutReplace[2].roles.forEach(role => {
-        console.log(role);
+            //Remove member from the database list
+            popflixStats.timeOutReplace.splice(popflixStats.timeOutReplace.indexOf(soullessMember.id), 1);
+
+            await popflixStats.save();
+          };
+        };
       });
-
-      //const admins = await AdminReplace.find();
-
-      /*admins.forEach(admin => {
-        admin.adminIReplaceData.forEach(async ([adminId, timestamp]) => {
-            const timeSinceRemoval = Date.now() - new Date(timestamp).getTime();
-            const tenMinutes = 10 * 60 * 1000;
-
-            // Check if 10 minutes have passed since the timestamp
-            if (timeSinceRemoval >= tenMinutes) {
-                console.log(`Re-granting admin role to ${adminId}`);
-                
-                // Remove the entry from adminHistory or update the user role
-                admin.adminIReplaceData = user.adminIReplaceData.filter(entry => entry[0] !== adminId);
-                await admin.save();  // Save the changes to the database
-            };
-        });
-      });*/
-
-
-      /*let giveAdmin = await GiveAdmin.findOne({
-        adminIReplaceData: [[''],['']],
-      });*/
     } catch (giveAdminError) {
-
+      console.log(giveAdminError);
     };
 
     //And No Gif Thursday Conclusion
@@ -113,7 +119,7 @@ client.on('ready', () => {
       //fs.writeFileSync('./gifLosers.txt', '');
       //postedLosers = true;
     //};
-	}, 60000); //Check every minute
+	}, 15000);//60000); //Check every minute
 });
 
 client.on("guildMemberAdd", member => { //When a user joins the server
