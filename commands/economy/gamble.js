@@ -73,7 +73,8 @@ module.exports = {
                         if (!popflixStats) {
                             popflixStats = new PopflixStats({
                                 dataBaseID: 'POPFLIX',
-                                timeOutReplace: []
+                                timeOutReplace: [],
+                                noGifThursday: new Object
                             });
                         };
 

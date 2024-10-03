@@ -61,7 +61,7 @@ const japanese = ['あ','い','う','え','お','か','き','く','け','こ','�
 const adminAbuse = ['admin abuse','admin perms','owner abuse','owner perms','mod abuse','mod perms','abusing admin','abusing mod','abusing owner','abusive admin','abusive mod','abusive owner','abuse admin','abuse mod','abuse owner','power abuse','abuse power','abusing power','josh abuse','!kick <@777270048288407593>','!kick @Popflix Moderator','i hate popflix bot','i hate popflix mod','i hate popflix moderator','admin aboose'];
 
 //No Gif Thursday
-var postedLosers = true;
+//var postedLosers = true;
 
 
 client.on('ready', () => {
@@ -71,6 +71,27 @@ client.on('ready', () => {
 
   //Every Minute Execution
   setInterval(async () => {
+
+    //Add a central midnight checker
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //Birthday Wishes
 		client.commands.get('birthday').execute(client);
 
@@ -198,10 +219,12 @@ client.on('messageCreate', message => {
     };
 
     //Check for No Gif Thursday
+    client.commands.get('noGifThursday').execute(message, client);
+    
     //if (message.content.toLowerCase().includes('.gif')||message.content.toLowerCase().includes('https://tenor.com/view/')||(message.content.toLowerCase().includes('https://imgur.com/')&&message.content.toLowerCase().includes('gif'))) {
     //message.reply(" "+message.attachments.size);
     //if (message.attachments.size > 0) {
-    const isLink = new RegExp(/https?:\/\/\S+/g).test(message.content);
+    /*const isLink = new RegExp(/https?:\/\/\S+/g).test(message.content);
     const gifWeb = (message.content.toLowerCase().includes("tenor.com/view/") || message.content.toLowerCase().includes(".gif") || message.content.toLowerCase().includes("imgur.com/"));
     var gitFile = false;
     if (message.attachments.size > 0) {
@@ -220,17 +243,17 @@ client.on('messageCreate', message => {
       //Check Thursday
       if (weekday == "Thursday") {
         //No Gif Thursday
-        var checkGifLosers = fs.readFileSync('./gifLosers.txt', 'utf8');
-        if (!checkGifLosers.includes(message.author.id)) {
-          postedLosers = false; //Someone posted a gif, post on friday
-          fs.appendFileSync('./gifLosers.txt', "<@"+message.author.id+">\n");
-        };
+        //var checkGifLosers = fs.readFileSync('./gifLosers.txt', 'utf8');
+        //if (!checkGifLosers.includes(message.author.id)) {
+        //  postedLosers = false; //Someone posted a gif, post on friday
+        //  fs.appendFileSync('./gifLosers.txt', "<@"+message.author.id+">\n");
+        //};
       };
-    };
+    };*/
 
     //Check for .gorf
     if (message.content.toLowerCase().includes('.gorf')) {
-      message.reply("❗❗ GIF DETECTED <@412278016429785089> ❗❗");
+      message.reply("❗❗ GIF DETECTED ❗❗");
     };
 
     //Award PopflixCoin to message reacter
