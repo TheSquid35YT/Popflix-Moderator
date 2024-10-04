@@ -98,6 +98,8 @@ module.exports = {
                     });
 
                     //Finish midnightCheck
+                    popflixStats.noGifThursday.contenders = [];
+                    popflixStats.noGifThursday.losers = [];
                     popflixStats.noGifThursday.midnightCheck = true;
                 } else { //Reset midnightCheck
                     popflixStats.noGifThursday.midnightCheck = false;
