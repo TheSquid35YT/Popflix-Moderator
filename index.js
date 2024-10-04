@@ -74,7 +74,26 @@ client.on('ready', () => {
 
     //Add a central midnight checker
     //Show No Gif Thursday Results
-    client.commands.get('noGifThursday').execute('READ', new Object, client);
+    try {
+      let popflixStats = await PopflixStats.findOne({
+        dataBaseID: 'POPFLIX',
+      });
+
+      //Check if the popflixStats doesn't exist
+      if (!popflixStats) {
+        popflixStats = new PopflixStats({
+            dataBaseID: 'POPFLIX',
+            timeOutReplace: [],
+            noGifThursday: new Object
+        });
+      };
+
+      if (popflixStats.noGifThursday.midnightCheck === false) {
+        client.commands.get('noGifThursday').execute('READ', new Object, client);
+      };
+    } catch (error) {
+      console.log("NO GIF THURSDAY CHECK ERROR: "+error);
+    };
 
     //Get day
     /*var midnightCheckDate = new Date();

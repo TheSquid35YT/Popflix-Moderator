@@ -101,7 +101,7 @@ module.exports = {
                     popflixStats.noGifThursday.contenders = [];
                     popflixStats.noGifThursday.losers = [];
                     popflixStats.noGifThursday.midnightCheck = true;
-                } else { //Reset midnightCheck
+                } else if (weekday !== "Friday") { //Reset midnightCheck
                     popflixStats.noGifThursday.midnightCheck = false;
                 };
 
