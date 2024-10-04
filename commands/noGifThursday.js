@@ -77,7 +77,7 @@ module.exports = {
                 var options = { weekday: 'long', timeZone: 'CST' };
                 var weekday = new Intl.DateTimeFormat('en-US', options).format(d);
 
-                if (weekday == "Friday" && popflixStats.noGifThursday.midnightCheck == false) { //Show No Gif Thursday Results
+                if ((weekday === "Friday") && (popflixStats.noGifThursday.midnightCheck === false)) { //Show No Gif Thursday Results
                     //Get Contenders & Losers
                     var contenders = "";
                     popflixStats.noGifThursday.contenders.forEach(async contender => {
