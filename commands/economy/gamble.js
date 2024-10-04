@@ -12,7 +12,7 @@ module.exports = {
         const Discord = require('discord.js');
         
         //Command
-        //try {
+        try {
             let userProfile = await UserProfile.findOne({
                 userId: message.author.id,
             });
@@ -175,8 +175,8 @@ module.exports = {
                 });
             };
 
-        //} catch (error) {
-        //    console.log("GAMBLE COMMAND ERROR: "+error);
-        //};
+        } catch (error) {
+            console.log("GAMBLE COMMAND ERROR: "+error);
+        };
     }
 };

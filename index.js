@@ -73,7 +73,19 @@ client.on('ready', () => {
   setInterval(async () => {
 
     //Add a central midnight checker
+    //Show No Gif Thursday Results
+    client.commands.get('noGifThursday').execute('READ', new Object, client);
 
+    //Get day
+    /*var midnightCheckDate = new Date();
+    var midnightCheckOptions = { weekday: 'long', timeZone: 'CST' };
+    var midnightCheckWeekday = new Intl.DateTimeFormat('en-US', midnightCheckOptions).format(midnightCheckDate);
+
+    if (midnightCheckWeekday == "Friday") { //Show No Gif Thursday Results
+        
+    } else {
+
+    };*/
 
 
 
@@ -219,37 +231,9 @@ client.on('messageCreate', message => {
     };
 
     //Check for No Gif Thursday
-    client.commands.get('noGifThursday').execute(message, client);
-    
-    //if (message.content.toLowerCase().includes('.gif')||message.content.toLowerCase().includes('https://tenor.com/view/')||(message.content.toLowerCase().includes('https://imgur.com/')&&message.content.toLowerCase().includes('gif'))) {
-    //message.reply(" "+message.attachments.size);
-    //if (message.attachments.size > 0) {
-    /*const isLink = new RegExp(/https?:\/\/\S+/g).test(message.content);
-    const gifWeb = (message.content.toLowerCase().includes("tenor.com/view/") || message.content.toLowerCase().includes(".gif") || message.content.toLowerCase().includes("imgur.com/"));
-    var gitFile = false;
-    if (message.attachments.size > 0) {
-      message.attachments.forEach(attachment => {
-        if (attachment.contentType === 'image/gif' || attachment.name.endsWith('.gif')) {
-          gifFile = true;
-        };
-      });
+    if (!message.author.bot) { //Only accept User accounts
+      client.commands.get('noGifThursday').execute('WRITE', message, client);
     };
-    if ((isLink && gifWeb) == true || (gitFile == true)) {
-      //Get day
-      var d = new Date();
-      var options = { weekday: 'long', timeZone: 'CST' };
-      var weekday = new Intl.DateTimeFormat('en-US', options).format(d);
-
-      //Check Thursday
-      if (weekday == "Thursday") {
-        //No Gif Thursday
-        //var checkGifLosers = fs.readFileSync('./gifLosers.txt', 'utf8');
-        //if (!checkGifLosers.includes(message.author.id)) {
-        //  postedLosers = false; //Someone posted a gif, post on friday
-        //  fs.appendFileSync('./gifLosers.txt', "<@"+message.author.id+">\n");
-        //};
-      };
-    };*/
 
     //Check for .gorf
     if (message.content.toLowerCase().includes('.gorf')) {

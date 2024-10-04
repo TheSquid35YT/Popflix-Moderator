@@ -23,6 +23,9 @@ const noGifThursdaySchema = new Schema({
     },
     losers: {
         type: [String], //Array of member IDs of those who have sent a Gif on No Gif Thursday
+    },
+    midnightCheck: {
+        type: Boolean,
     }
 });
 
@@ -33,25 +36,12 @@ const popflixStatsSchema = new Schema({
     },
     timeOutReplace: { //Replace roles after gamble soul timeout ends
         type: [timeOutReplaceSchema],
+        required: true,
     },
     noGifThursday: { //No Gif Thursday contenders and losers
         type: noGifThursdaySchema,
-    }
-    /*userId: {
-        type: String,
         required: true,
-    },
-    balance: {
-        type: Number,
-        default: 0,
-    },
-    lastDailyCollected: {
-        type: Date,
-    },
-    dailyStreakMultiplier: {
-        type: Number,
-        default: 100,
-    }*/
+    }
 },
 { timestamps: true });
 
