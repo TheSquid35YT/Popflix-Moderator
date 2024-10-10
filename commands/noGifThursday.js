@@ -7,6 +7,8 @@ module.exports = {
     async execute(readOrWrite, message, client) {
         //Packages
         const Discord = require('discord.js');
+        const { EmbedBuilder } = require('discord.js');
+        const { AttachmentBuilder } = require('discord.js');
         
         //Command
         try {
@@ -77,25 +79,64 @@ module.exports = {
                 var options = { weekday: 'long', timeZone: 'CST' };
                 var weekday = new Intl.DateTimeFormat('en-US', options).format(d);
 
-                if ((weekday === "Friday") && (popflixStats.noGifThursday.midnightCheck === false)) { //Show No Gif Thursday Results
+                if ((weekday === "Wednesday") && (popflixStats.noGifThursday.midnightCheck === false)) { //Show No Gif Thursday Results //FRIDAY - FALSE
                     //Get Contenders & Losers
                     var contenders = "";
+                    var spacing = 0;
                     popflixStats.noGifThursday.contenders.forEach(async contender => {
-                        contenders += ("\n<@"+contender+">");
+                        if (spacing < 3) {
+                            contenders += ("<@"+contender+">\t");
+                            spacing += 1;
+                        } else {
+                            contenders += ("\n<@"+contender+">\t");
+                            spacing = 1;
+                        };
                     });
                     var losers = "";
+                    spacing = 0;
                     popflixStats.noGifThursday.losers.forEach(async loser => {
-                        losers += ("\n<@"+loser+">");
+                        if (spacing < 3) {
+                            losers += ("<@"+loser+">\t");
+                            spacing += 1;
+                        } else {
+                            losers += ("\n<@"+loser+">\t");
+                            spacing = 1;
+                        };
                     });
 
+                    const embedText = "__**Contenders:**__\n"+contenders+"\n\n__**Losers:**__\n"+losers;
+                    const randomWheel = require('./randomWheel.js');
+                    /*const attachment = */await randomWheel.execute(client, embedText);
+                    //const attachment = new AttachmentBuilder(randomWheel.execute(message, client), { name: 'wheel.gif' });
+
                     //Send the Channel Message
-                    reminderChannel.send({
+                    /*const embed = await reminderChannel.send({
                         embeds: [{
                             title: "NO GIF THURSDAY",
-                            description: "__**Contenders:**__"+contenders+"\n\n__**Losers:**__"+losers,
+                            description: "__**Contenders:**__\n"+contenders+"\n\n__**Losers:**__\n"+losers,
                             color: parseInt("00f5d8", 16)
                         }]
-                    });
+                    });*/
+
+                    /*const embedMessage = await reminderChannel.send({
+                        embeds: [
+                            new EmbedBuilder()
+                                .setTitle("NO GIF THURSDAY")
+                                .setDescription(`__**Contenders:**__\n${contenders}\n\n__**Losers:**__\n${losers}`)
+                                .setColor(parseInt("00f5d8", 16))
+                        ]
+                    });*/
+
+
+                    //Display the random wheel
+                    /*if (attachment) {
+                        // Now you can send the attachment in a message
+                        await reminderChannel.send({ files: [attachment] });
+                    } else {
+                        console.error('Failed to generate attachment');
+                    };*/
+                    //await embedMessage.reply({ files: [attachment] });
+                    //embed.reply({ files: [attachment] });
 
                     //Finish midnightCheck
                     popflixStats.noGifThursday.contenders = [];

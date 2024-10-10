@@ -1,6 +1,7 @@
 //Packages
 const Discord = require('discord.js');
 const { GatewayIntentBits } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 require('dotenv').config();
 const mongoose = require('mongoose')
 const PopflixStats = require('./schemas/PopflixStats.js');
@@ -88,7 +89,7 @@ client.on('ready', () => {
         });
       };
 
-      if (popflixStats.noGifThursday.midnightCheck === false) {
+      if (popflixStats.noGifThursday.midnightCheck === false) { //FALSE
         client.commands.get('noGifThursday').execute('READ', new Object, client);
       };
     } catch (error) {
@@ -171,7 +172,7 @@ client.on('ready', () => {
       //fs.writeFileSync('./gifLosers.txt', '');
       //postedLosers = true;
     //};
-	}, 15000);//60000); //Check every minute
+	}, 5 * 60000);//60000); //Check every minute
 });
 
 client.on("guildMemberAdd", member => { //When a user joins the server
@@ -229,6 +230,9 @@ client.on('messageCreate', message => {
     } else if (message.content.toLowerCase().startsWith('!slots')) {
       //!slots command
       client.economyCommands.get('slots').execute(msg, message, client);
+    } else if (message.content.toLowerCase().startsWith('!wheel')) {
+      //!slots command
+      client.commands.get('randomWheel').execute(message, client);
     }; // Add an "else if" for new commands here
 
     //Delete Japanese Character Message

@@ -190,6 +190,12 @@ module.exports = {
       textChannel.send('Hey @everyone, it\'s <@660947724937723904>\'s Birthday! **Happy  Birthday <@660947724937723904>!**');
     }
 
+    //Mia (December 24th, 2004)
+    if (d.toLocaleTimeString('en-US', options) === 'December 24, 6:00 AM UTC') {
+      //12:00 AM CST is "6:00:00 AM UTC"
+      textChannel.send('Hey @everyone, it\'s <@253319654762741760>\'s Birthday! **Happy  Birthday <@253319654762741760>!**');
+    }
+
     //Quinn Smith (December 26th, 2004)
     if (d.toLocaleTimeString('en-US', options) === 'December 26, 6:00 AM UTC') {
       //12:00 AM CST is "6:00:00 AM UTC"
