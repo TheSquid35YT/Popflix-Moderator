@@ -105,8 +105,8 @@ module.exports = {
                     });
 
                     const embedText = "__**Contenders:**__\n"+contenders+"\n\n__**Losers:**__\n"+losers;
-                    const randomWheel = require('./randomWheel.js');
-                    /*const attachment = */await randomWheel.execute(client, embedText);
+                const randomWheel = require('./randomWheel.js');
+                /*const attachment = */await randomWheel.execute(client, embedText);
                     //const attachment = new AttachmentBuilder(randomWheel.execute(message, client), { name: 'wheel.gif' });
 
                     //Send the Channel Message
