@@ -86,7 +86,6 @@ client.on('ready', () => {
             dataBaseID: 'POPFLIX',
             birthday: {
               checkDate: new Date(),
-              birthdayCheck: false,
             },
             timeOutReplace: [],
             noGifThursday: new Object
@@ -147,23 +146,21 @@ client.on('ready', () => {
       var options = { month: 'long', day: 'numeric', year: 'numeric'};
       options.timeZone = 'CST';
       options.timeZoneName = 'short';
-      //console.log("\t"+(popflixStats.birthday.checkDate).toLocaleString('en-US', options)+"\n\t"+(new Date().toLocaleString('en-US', options)));
+      //console.log("\t"+(popflixStats.birthday.checkDate).toLocaleString('en-US', options)+"\n\t"+((new Date(new Date().getDate())).toLocaleString('en-US', options)));
       
       
-      if ((popflixStats.birthday.checkDate).toLocaleString('en-US', options) != (new Date().toLocaleString('en-US', options))) { //Hasn't been checked yet today
+      //Useless and overcomplicated:
+      /*if ((popflixStats.birthday.checkDate).toLocaleString('en-US', options) != (new Date().toLocaleString('en-US', options))) { //Hasn't been checked yet today
         console.log("NO");
         popflixStats.birthday.birthdayCheck = false;
         await popflixStats.save();
-      };
+      };*/
       
-      if (popflixStats.birthday.birthdayCheck === false) { //Don't check again today
-        //console.log("EXECUTE "+(popflixStats.birthday.checkDate).toLocaleString('en-US', options));
-        
+      //if (popflixStats.birthday.birthdayCheck === false) { //Don't check again today
+      if ((popflixStats.birthday.checkDate).toLocaleString('en-US', options) != (new Date().toLocaleString('en-US', options))) { //Hasn't been checked yet today
         //Check for Birthday Today
-        console.log("HELLO");
         client.commands.get('birthday').execute(client);
 
-        popflixStats.birthday.birthdayCheck = true;
         popflixStats.birthday.checkDate = new Date();
         await popflixStats.save();
       };

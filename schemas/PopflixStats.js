@@ -5,9 +5,6 @@ const birthday = require('../commands/birthday');
 const birthdaySchema = new Schema({
     checkDate: {
         type: Date,
-    },
-    birthdayCheck: {
-        type: Boolean,
     }
 });
 

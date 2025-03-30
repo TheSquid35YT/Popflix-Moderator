@@ -53,63 +53,54 @@ module.exports = {
       //12:00 AM CST is "6:00:00 AM UTC"
       textChannel.send('Hey @everyone, it\'s <@460969230439940108>\'s Birthday! **Happy  Birthday <@460969230439940108>**');
     }
-
-
-    
     //March
-      //JT Misevicz (March 30th, 2005)
-      if (d.toLocaleString('en-US', options) === 'March 30 at CDT' || d.toLocaleString('en-US', options) === 'March 30 at CST') {
-        textChannel.send('Hey @everyone, it\'s <@490196736103677975>\'s Birthday! **Happy  Birthday <@490196736103677975>!**');
-      };
-    
-
-
+    //JT Misevicz (March 30th, 2005)
+    //if (d.toLocaleTimeString('en-US', options) === 'March 30, 5:00 AM UTC') {
+    if (d.toLocaleString('en-US', options) === 'March 30 at CDT' || d.toLocaleString('en-US', options) === 'March 30 at CST') {
+      //12:00 AM CST is "5:00:00 AM UTC"
+      textChannel.send('Hey @everyone, it\'s <@490196736103677975>\'s Birthday! **Happy  Birthday <@490196736103677975>!**');
+    }
     //April
-      //Meadow Gehrlein (April 1st, 2005)
-      if (d.toLocaleString('en-US', options) === 'April 1 at CDT' || d.toLocaleString('en-US', options) === 'April 1 at CST') {
-        textChannel.send('Hey @everyone, it\'s <@529848159799607308>\'s Birthday! **Happy  Birthday <@529848159799607308>!**');
-      };
-
-      //Nate Boss (April 20th, 2005)
-      if (d.toLocaleString('en-US', options) === 'April 20 at CDT' || d.toLocaleString('en-US', options) === 'April 20 at CST') {
-        textChannel.send('Hey @everyone, it\'s <@608782462457348102>\'s Birthday! **Happy  Birthday <@608782462457348102>!**');
-      };
-
-
-
+    //Meadow Gehrlein (April 1st, 2005)
+    if (d.toLocaleTimeString('en-US', options) === 'April 1, 5:00 AM UTC') {
+      //12:00 AM CST is "5:00:00 AM UTC"
+      textChannel.send('Hey @everyone, it\'s <@529848159799607308>\'s Birthday! **Happy  Birthday <@529848159799607308>!**');
+    }
+    //Nate Boss (April 20th, 2005)
+    if (d.toLocaleTimeString('en-US', options) === 'April 20, 5:00 AM UTC') {
+      //12:00 AM CST is "5:00:00 AM UTC"
+      textChannel.send('Hey @everyone, it\'s <@608782462457348102>\'s Birthday! **Happy  Birthday <@608782462457348102>!**');
+    }
     //May
-      //Theo Bjornstad (May 3rd, 2005)
-      if (d.toLocaleTimeString('en-US', options) === 'May 3, 5:00 AM UTC') {
-        //12:00 AM CST is "5:00:00 AM UTC"
-        textChannel.send('Hey @everyone, it\'s <@512034141248946188>\'s Birthday! **Happy  Birthday <@512034141248946188>!**');
-      }
-      //Chip Calcatera (May 4th, 2005)
-      if (d.toLocaleTimeString('en-US', options) === 'May 4, 5:00 AM UTC') {
-        //12:00 AM CST is "5:00:00 AM UTC"
-        textChannel.send('Hey @everyone, it\'s <@496516563680100356>\'s Birthday! **Happy  Birthday <@496516563680100356>!**');
-      }
-      //Jason Coates-Sanders (May 7th, 2005)
-      if (d.toLocaleTimeString('en-US', options) === 'May 7, 5:00 PM UTC') {
-        //12:00 AM CST is "5:00:00 AM UTC"
-        textChannel.send('Hey @everyone, it\'s <@991747966803124315>\'s Birthday! **Happy  Birthday <@991747966803124315>!**');
-      }
-      //Michael Printz (May 12th, 2005)
-      if (d.toLocaleTimeString('en-US', options) === 'May 12, 5:00 AM UTC') {
-        //12:00 AM CST is "5:00:00 AM UTC"
-        textChannel.send('Hey @everyone, it\'s <@340556433693343756>\'s Birthday! **Happy  Birthday <@340556433693343756>!**');
-      }//Joshua Lopez (May 12th, 2005)
-      if (d.toLocaleTimeString('en-US', options) === 'May 12, 5:00 AM UTC') {
-        //12:00 AM CST is "5:00:00 AM UTC"
-        textChannel.send('Hey @everyone, it\'s <@274644519591477250>\'s Birthday! **Happy  Birthday <@274644519591477250>!**');
-      }
-      //Numi (May 30th, 2004)
-      if (d.toLocaleTimeString('en-US', options) === 'May 30, 5:00 AM UTC') {
-        //12:00 AM CST is "5:00:00 AM UTC"
-        textChannel.send('Hey @everyone, it\'s <@344329742566031362>\'s Birthday! **Happy  Birthday <@344329742566031362>!**');
-      }
-
-
-
+    //Theo Bjornstad (May 3rd, 2005)
+    if (d.toLocaleTimeString('en-US', options) === 'May 3, 5:00 AM UTC') {
+      //12:00 AM CST is "5:00:00 AM UTC"
+      textChannel.send('Hey @everyone, it\'s <@512034141248946188>\'s Birthday! **Happy  Birthday <@512034141248946188>!**');
+    }
+    //Chip Calcatera (May 4th, 2005)
+    if (d.toLocaleTimeString('en-US', options) === 'May 4, 5:00 AM UTC') {
+      //12:00 AM CST is "5:00:00 AM UTC"
+      textChannel.send('Hey @everyone, it\'s <@496516563680100356>\'s Birthday! **Happy  Birthday <@496516563680100356>!**');
+    }
+    //Jason Coates-Sanders (May 7th, 2005)
+    if (d.toLocaleTimeString('en-US', options) === 'May 7, 5:00 PM UTC') {
+      //12:00 AM CST is "5:00:00 AM UTC"
+      textChannel.send('Hey @everyone, it\'s <@991747966803124315>\'s Birthday! **Happy  Birthday <@991747966803124315>!**');
+    }
+    //Michael Printz (May 12th, 2005)
+    if (d.toLocaleTimeString('en-US', options) === 'May 12, 5:00 AM UTC') {
+      //12:00 AM CST is "5:00:00 AM UTC"
+      textChannel.send('Hey @everyone, it\'s <@340556433693343756>\'s Birthday! **Happy  Birthday <@340556433693343756>!**');
+    }//Joshua Lopez (May 12th, 2005)
+    if (d.toLocaleTimeString('en-US', options) === 'May 12, 5:00 AM UTC') {
+      //12:00 AM CST is "5:00:00 AM UTC"
+      textChannel.send('Hey @everyone, it\'s <@274644519591477250>\'s Birthday! **Happy  Birthday <@274644519591477250>!**');
+    }
+    //Numi (May 30th, 2004)
+    if (d.toLocaleTimeString('en-US', options) === 'May 30, 5:00 AM UTC') {
+      //12:00 AM CST is "5:00:00 AM UTC"
+      textChannel.send('Hey @everyone, it\'s <@344329742566031362>\'s Birthday! **Happy  Birthday <@344329742566031362>!**');
+    }
     //June
     //Dominic Young (June 10th, 2005)
     if (d.toLocaleTimeString('en-US', options) === 'June 10, 5:00 AM UTC') {
