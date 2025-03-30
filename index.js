@@ -84,6 +84,10 @@ client.on('ready', () => {
       if (!popflixStats) {
         popflixStats = new PopflixStats({
             dataBaseID: 'POPFLIX',
+            birthday: {
+              checkDate: new Date(),
+              birthdayCheck: false,
+            },
             timeOutReplace: [],
             noGifThursday: new Object
         });
@@ -92,6 +96,8 @@ client.on('ready', () => {
       if (popflixStats.noGifThursday.midnightCheck === false) { //FALSE
         client.commands.get('noGifThursday').execute('READ', new Object, client);
       };
+
+      await popflixStats.save();
     } catch (error) {
       console.log("NO GIF THURSDAY CHECK ERROR: "+error);
     };
@@ -125,7 +131,63 @@ client.on('ready', () => {
 
 
     //Birthday Wishes
-		client.commands.get('birthday').execute(client);
+    try {
+      let popflixStats = await PopflixStats.findOne({
+        dataBaseID: 'POPFLIX',
+      });
+
+      //Check if the popflixStats doesn't exist
+      if (!popflixStats) {
+        popflixStats = new PopflixStats({
+          dataBaseID: 'POPFLIX',
+        });
+      };
+
+      //console.log(popflixStats.birthday.birthdayCheck);
+      var options = { month: 'long', day: 'numeric', year: 'numeric'};
+      options.timeZone = 'CST';
+      options.timeZoneName = 'short';
+      //console.log("\t"+(popflixStats.birthday.checkDate).toLocaleString('en-US', options)+"\n\t"+(new Date().toLocaleString('en-US', options)));
+      
+      
+      if ((popflixStats.birthday.checkDate).toLocaleString('en-US', options) != (new Date().toLocaleString('en-US', options))) { //Hasn't been checked yet today
+        console.log("NO");
+        popflixStats.birthday.birthdayCheck = false;
+        await popflixStats.save();
+      };
+      
+      if (popflixStats.birthday.birthdayCheck === false) { //Don't check again today
+        //console.log("EXECUTE "+(popflixStats.birthday.checkDate).toLocaleString('en-US', options));
+        
+        //Check for Birthday Today
+        console.log("HELLO");
+        client.commands.get('birthday').execute(client);
+
+        popflixStats.birthday.birthdayCheck = true;
+        popflixStats.birthday.checkDate = new Date();
+        await popflixStats.save();
+      };
+
+      /*popflixStats.timeOutReplace.forEach(async soullessMember => {
+        if (soullessMember.time < new Date()) {
+          const adminIDs = fs.readFileSync('./adminIDs.txt', 'utf8');
+          if (adminIDs.includes(soullessMember.id)) { //soullessMember is an Admin
+            //Add Admin
+            const popflixGuild = await client.guilds.fetch('731710405600215050');
+            const popflixMember = await popflixGuild.members.fetch(soullessMember.id);
+            popflixMember.roles.add('731920530470600824');
+
+            //Remove member from the database list
+            popflixStats.timeOutReplace.splice(popflixStats.timeOutReplace.indexOf(soullessMember.id), 1);
+
+            await popflixStats.save();
+          };
+        };
+      });*/
+    } catch (birthdayError) {
+      console.log(birthdayError);
+    };
+		//client.commands.get('birthday').execute(client);
 
     //Replace Admin
     try {
@@ -172,7 +234,7 @@ client.on('ready', () => {
       //fs.writeFileSync('./gifLosers.txt', '');
       //postedLosers = true;
     //};
-	}, 5 * 60000);//60000); //Check every minute
+	}, 5 * 60000);//60000); //Check every 5 minutes
 });
 
 client.on("guildMemberAdd", member => { //When a user joins the server

@@ -10,10 +10,26 @@ module.exports = {
       channel => channel.id === '731713435506704424'//Popflix
     );
     var d = new Date();
-    var options = { month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    //The following is the old options for the date checker. The birthdays have not been updated for the new system yet.
+    /*var options = { month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
     options.timeZone = 'UTC';
-    options.timeZoneName = 'short';
+    options.timeZoneName = 'short';*/
     //console.log(d.toLocaleString('en-US', options));
+
+
+
+
+
+
+
+    //NEW DATE CHECKER FORMAT:
+    var options = { month: 'long', day: 'numeric', year: 'numeric'};
+    options.timeZone = 'CST';
+    options.timeZoneName = 'short';
+
+
+
+
 
     //January
     //Ashton Egonut (January 7th, 2005)
@@ -38,11 +54,19 @@ module.exports = {
       textChannel.send('Hey @everyone, it\'s <@460969230439940108>\'s Birthday! **Happy  Birthday <@460969230439940108>**');
     }
     //March
-    //JT Misevicz (March 30th, 2005)
-    if (d.toLocaleTimeString('en-US', options) === 'March 30, 5:00 AM UTC') {
+    if (d.toLocaleString('en-US', options) === 'March 29, 2025 at CDT') {
       //12:00 AM CST is "5:00:00 AM UTC"
-      textChannel.send('Hey @everyone, it\'s <@490196736103677975>\'s Birthday! **Happy  Birthday <@490196736103677975>!**');
+      textChannel.send('Hey guys, popflix_mod_35 here');
     }
+
+    console.log(d.toLocaleString('en-US', options)+"\n"+((new Date(d.getDate())).toLocaleString('en-US', options)));
+
+    //JT Misevicz (March 30th, 2005)
+    //if (d.toLocaleTimeString('en-US', options) === 'March 30, 5:00 AM UTC') {
+    //if (d.toLocaleTimeString('en-US', options) === 'March 30, 2025 at CDT') {
+      //12:00 AM CST is "5:00:00 AM UTC"
+    //  textChannel.send('Hey @everyone, it\'s <@490196736103677975>\'s Birthday! **Happy  Birthday <@490196736103677975>!**');
+    //}
     //April
     //Meadow Gehrlein (April 1st, 2005)
     if (d.toLocaleTimeString('en-US', options) === 'April 1, 5:00 AM UTC') {

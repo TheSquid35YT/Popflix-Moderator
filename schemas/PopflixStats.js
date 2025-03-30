@@ -1,4 +1,15 @@
 const { Schema, model, default: mongoose } = require('mongoose');
+const birthday = require('../commands/birthday');
+
+//Birthday Checker
+const birthdaySchema = new Schema({
+    checkDate: {
+        type: Date,
+    },
+    birthdayCheck: {
+        type: Boolean,
+    }
+});
 
 //Replace roles after gamble soul timeout ends
 const timeOutReplaceSchema = new Schema({
@@ -32,6 +43,10 @@ const noGifThursdaySchema = new Schema({
 const popflixStatsSchema = new Schema({
     dataBaseID: {
         type: String,
+        required: true,
+    },
+    birthday: { //Check for Birthday Announcements
+        type: birthdaySchema,
         required: true,
     },
     timeOutReplace: { //Replace roles after gamble soul timeout ends
