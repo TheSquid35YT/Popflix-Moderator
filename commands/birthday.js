@@ -63,7 +63,7 @@ module.exports = {
 
     //JT Misevicz (March 30th, 2005)
     //if (d.toLocaleTimeString('en-US', options) === 'March 30, 5:00 AM UTC') {
-    if (d.toLocaleTimeString('en-US', options) === 'March 30, 2025 at CDT') {
+    if (d.toLocaleString('en-US', options) === 'March 30, 2025 at CDT') {
       //12:00 AM CST is "5:00:00 AM UTC"
       textChannel.send('Hey @everyone, it\'s <@490196736103677975>\'s Birthday! **Happy  Birthday <@490196736103677975>!**');
     }
