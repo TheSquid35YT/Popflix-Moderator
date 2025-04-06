@@ -400,7 +400,7 @@ const kittenClient = new Discord.Client({
     GatewayIntentBits.DirectMessageTyping,
     GatewayIntentBits.MessageContent
   ]
-});
+}); 
 
 const kittenToken = process.env.KITTEN_DISCORD_BOT_SECRET;
 
