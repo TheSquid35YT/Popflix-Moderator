@@ -7,6 +7,9 @@ const mongoose = require('mongoose')
 const PopflixStats = require('./schemas/PopflixStats.js');
 //const adminIDs = require('./adminIDs.txt');
 
+//Twitch
+const tmi = require('tmi.js');
+
 //Keep the bot alive
 const keep_alive = require('./keep_alive.js')
 
@@ -292,7 +295,14 @@ client.on('messageCreate', message => {
     } else if (message.content.toLowerCase().startsWith('!wheel')) {
       //!slots command
       client.commands.get('randomWheel').execute(message, client);
+    } else if (message.content.toLowerCase().startsWith('!link')) {
+      //!slots command
+      message.reply(`Click here to authenticate with Twitch: https://${process.env.AUTH0_DOMAIN}/login`);
     }; // Add an "else if" for new commands here
+
+
+
+    
 
     //Delete Japanese Character Message
     for (var i = 0; i < japanese.length; i++) {
@@ -338,8 +348,71 @@ client.on('messageCreate', message => {
 //Check For New YouTube Videos
 
 
+//Authorization
+
+
+
+
+//Twitch Bot Activities
+const twitchClient = new tmi.Client({
+	connection: { reconnect: true },
+	identity: {
+		username: 'PopflixMod',
+		password: process.env.TWITCH_ACCESS_TOKEN
+	},
+	channels: [ 'The_Squid_35', 'ilovehalo30' ]
+});
+
+twitchClient.connect().catch(console.error);
+twitchClient.on('message', async (channel, tags, message, self) => {
+	if(!self) {
+    if(message.toLowerCase().startsWith('!hello')) {
+      twitchClient.say(channel, `@${tags.username}, twitch.tv/ilovehalo30`);
+    } else if(message.toLowerCase().startsWith('!l')) {
+      //const authUrl = await getDiscordAuthUrl('158771231');
+
+      // Send the link to the user
+      //twitchClient.say(channel, `@${tags.username}, To link your Twitch account, please click: ${authUrl}`);
+
+      //var sessionToken = uuidv4();
+    };
+  };
+});
+
+
+
+//Kitten Account
+const kittenClient = new Discord.Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildEmojisAndStickers,
+    GatewayIntentBits.GuildIntegrations,
+    GatewayIntentBits.GuildWebhooks,
+    GatewayIntentBits.GuildInvites,
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildMessageTyping,
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.DirectMessageReactions,
+    GatewayIntentBits.DirectMessageTyping,
+    GatewayIntentBits.MessageContent
+  ]
+});
+
+const kittenToken = process.env.KITTEN_DISCORD_BOT_SECRET;
+
+kittenClient.on('ready', () => {
+  console.log("I'm in");
+  console.log(kittenClient.user.username);
+  kittenClient.user.setActivity({ name: 'Daddy in the VC', type: 2, });
+});
+
 //Log In
 (async () => {
   await mongoose.connect(process.env.MONGODB_URI);
   client.login(token);
+  kittenClient.login(kittenToken);
 })();
